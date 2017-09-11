@@ -1,0 +1,24 @@
+{
+  "name": "tower-defense",
+  "version": "1.0.0",
+  "description": "First CISC474 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jordsan/cisc474-tower-defense.git"
+  },
+  "author": "Jordsan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jordsan/cisc474-tower-defense/issues"
+  },
+  "homepage": "https://github.com/Jordsan/cisc474-tower-defense#readme",
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
