@@ -1,0 +1,20 @@
+#map-div{
+    background-color: darkgray;
+    width:500px;
+    height:500px;
+    margin: 0 auto ;
+    display: inline-block;
+}
+#mapMenu{
+    display: inline-block;
+}
+#gameWrapper{
+    margin: 0 auto;
+    text-align: center;
+}
+#gameMenuTitle{
+    margin-top: 0px;
+}
+#small, #medium, #large{
+    display: inline-block;
+}
