@@ -5,6 +5,9 @@
     margin: 0 auto ;
     display: inline-block;
 }
+#map-div * {
+    background-color: red;
+}
 #mapMenu{
     display: inline-block;
 }

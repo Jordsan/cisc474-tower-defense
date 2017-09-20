@@ -1,20 +1,19 @@
-#mapTable{
-    background-color: darkgray;
-    width:500px;
-    height:500px;
-    margin: 0 auto ;
-    display: inline-block;
+#play-button{
+    text-align: center;
+    width: 20%;
+    font-family: Aerospace, sans-serif;
+    font-size: 50px;
+    padding: 20px;
+    color:#ffffff;
+    background-color: black;
 }
-#mapMenu{
-    display: inline-block;
-}
-#gameWrapper{
-    margin: 0 auto;
+#button-div{
     text-align: center;
 }
-#gameMenuTitle{
-    margin-top: 0px;
+@font-face {
+    font-family:"Aerospace";
+    src: url("game/Aerospace.ttf") /* TTF file for CSS3 browsers */
 }
-#small, #medium, #large{
-    display: inline-block;
+#start-screen{
+    background: url('game/background.jpg');
 }

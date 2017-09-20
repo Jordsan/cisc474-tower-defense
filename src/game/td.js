@@ -14,7 +14,7 @@ $( document ).ready(function() {
             mapHtml += '<span id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
             console.log("hit");
         }
-        mapHtml += '</div>';    
+        mapHtml += '</div>';
     }
     
     $("#map-div").html(mapHtml);
