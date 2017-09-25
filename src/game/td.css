@@ -1,30 +1,54 @@
 #map-div{
-    background-color: darkgray;
-    width:500px;
-    height:500px;
+    width:600px;
+    height:600px;
     margin: 0 auto ;
     display: inline-block;
 }
-#map-div * {
-    background-color: red;
-    border: 2px solid black;
-    cursor: hand;
-
+.row{
+    padding:15px;
 }
-#map-div * :hover{
-    background-color: blue;
+.column{
+    padding:15px;
+    border:solid black 1px;
+}
+.column:hover{
+    padding:15px;
+    background-color: darkgray;
+    border:solid red 1px;
+    cursor:hand;
 }
 #mapMenu{
-    display: inline-block;
+    width:600px;
+    border:solid black 3px;
+    margin: 0 auto ;
 }
 #gameWrapper{
     margin: 0 auto;
     text-align: center;
     border: 5px solid black;
+    background-color: white;
+    zoom: 0.75;
+    -moz-transform: scale(0.75);
 }
 #gameMenuTitle{
     margin-top: 0px;
 }
-#small, #medium, #large{
+.menuButtons{
     display: inline-block;
+    width:23%;
+    font-family: Aerospace, sans-serif;
+}
+@font-face {
+    font-family:"Aerospace";
+    src: url("../game/Aerospace.ttf") /* TTF file for CSS3 browsers */
+}
+
+#Towers{
+    border:solid black 3px;
+}
+#otherButtons{
+    border:solid black 3px;
+}
+body{
+    background: url('../game/background.jpg');
 }
