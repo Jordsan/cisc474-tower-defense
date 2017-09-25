@@ -17,6 +17,9 @@
     border:solid red 1px;
     cursor:hand;
 }
+.redBackground{
+    background-color: red;
+}
 #mapMenu{
     width:600px;
     border:solid black 3px;

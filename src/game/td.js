@@ -2,10 +2,10 @@
 var mapArray = [];
 
 for(var i = 0; i < 12; i++){
-    mapArray[i] = [];    
-    for(var j = 0; j < 12; j++){ 
-        mapArray[i][j] = 0;    
-    }    
+    mapArray[i] = [];
+    for(var j = 0; j < 12; j++){
+        mapArray[i][j] = 0;
+    }
 }
 */
 
@@ -64,7 +64,7 @@ $( document ).ready(function() {
         }
         mapHtml += '</div>';
     }
-    
+
     $("#map-div").html(mapHtml);
 
     function pad ( val ) { return val > 9 ? val : "0" + val; }
@@ -72,10 +72,10 @@ $( document ).ready(function() {
         $("#seconds").html(pad(++gameTime%60));
         $("#minutes").html(pad(parseInt(gameTime/60,10)));
     }, 1000);
-        
+
     setInterval( function() {
         // for all game board
-        //     for 
+        //     for
         //         if the tile is a monster
         //             check the adjacent tiles for another path tile
         //             update position to that tile
@@ -93,7 +93,7 @@ $( document ).ready(function() {
                 if (mapArray[currI][currJ - 1] == 0){
                     if (oldJ != currJ - 1) {
                         monsterArray[i].oldLoc.j = currJ;
-                        monsterArray[i].oldLoc.i = currI;                        
+                        monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.j = currJ - 1;
                     }
                 }
@@ -103,7 +103,7 @@ $( document ).ready(function() {
                 if (mapArray[currI][currJ + 1] == 0){
                     if (oldJ != currJ + 1) {
                         monsterArray[i].oldLoc.j = currJ;
-                        monsterArray[i].oldLoc.i = currI;                        
+                        monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.j = currJ + 1;
                     }
                 }
@@ -121,11 +121,11 @@ $( document ).ready(function() {
             //jquery css update
             $("#" + currI + "-" + currJ).addClass("red-background");
         }
-        
-        
+
+
         if (monsterCount < 1){
             if (mapArray[0][2] == 0){
-                monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));               
+                monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));
             }
             monsterCount++;
         }
