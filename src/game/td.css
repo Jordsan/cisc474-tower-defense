@@ -7,6 +7,12 @@
 }
 #map-div * {
     background-color: red;
+    border: 2px solid black;
+    cursor: hand;
+
+}
+#map-div * :hover{
+    background-color: blue;
 }
 #mapMenu{
     display: inline-block;
@@ -14,6 +20,7 @@
 #gameWrapper{
     margin: 0 auto;
     text-align: center;
+    border: 5px solid black;
 }
 #gameMenuTitle{
     margin-top: 0px;
