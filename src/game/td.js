@@ -2,10 +2,10 @@
 var mapArray = [];
 
 for(var i = 0; i < 12; i++){
-    mapArray[i] = [];    
-    for(var j = 0; j < 12; j++){ 
-        mapArray[i][j] = 0;    
-    }    
+    mapArray[i] = [];
+    for(var j = 0; j < 12; j++){
+        mapArray[i][j] = 0;
+    }
 }
 */
 
@@ -58,17 +58,13 @@ $( document ).ready(function() {
     var mapHtml = "";
     for(var i = 0; i < mapArray.length; i++){
         mapHtml += '<div class="row" id="row-' + i + '">';
-        for(var j = 0; j < mapArray[i].length; j++){ 
-<<<<<<< HEAD
-            mapHtml += '<span id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
-=======
+        for(var j = 0; j < mapArray[i].length; j++){
             mapHtml += '<span class="column" id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
             console.log("hit");
->>>>>>> 4a00e57faab9862e18297e3edb31ea7b0ceffe82
         }
         mapHtml += '</div>';
     }
-    
+
     $("#map-div").html(mapHtml);
 
     function pad ( val ) { return val > 9 ? val : "0" + val; }
@@ -76,10 +72,10 @@ $( document ).ready(function() {
         $("#seconds").html(pad(++gameTime%60));
         $("#minutes").html(pad(parseInt(gameTime/60,10)));
     }, 1000);
-        
+
     setInterval( function() {
         // for all game board
-        //     for 
+        //     for
         //         if the tile is a monster
         //             check the adjacent tiles for another path tile
         //             update position to that tile
@@ -98,9 +94,9 @@ $( document ).ready(function() {
                 if (mapArray[currI][currJ - 1] == 0){
                     if (oldJ != currJ - 1) {
                         monsterArray[i].oldLoc.j = currJ;
-                        monsterArray[i].oldLoc.i = currI;                        
+                        monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.j = currJ - 1;
-                        console.log("left");                        
+                        console.log("left");
                     }
                 }
             }
@@ -109,10 +105,10 @@ $( document ).ready(function() {
                 if (mapArray[currI][currJ + 1] == 0){
                     if (oldJ != currJ + 1) {
                         monsterArray[i].oldLoc.j = currJ;
-                        monsterArray[i].oldLoc.i = currI;                        
+                        monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.j = currJ + 1;
                         console.log("right");
-                        
+
                     }
                 }
             }
@@ -124,17 +120,17 @@ $( document ).ready(function() {
                         monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.i = currI + 1;
                         console.log("down");
-                        
+
                     }
                 }
             }
 
         }
-        
-        
+
+
         if (monsterCount < 1){
             if (mapArray[0][2] == 0){
-                monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));               
+                monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));
             }
             monsterCount++;
         }
