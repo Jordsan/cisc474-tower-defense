@@ -6,6 +6,11 @@ for(var i = 0; i < 10; i++){
     }    
 }
 
+
+var gameLives = 25;
+var gameScore = 0;
+var gameTime = 0;
+
 $( document ).ready(function() {
     var mapHtml = "";
     for(var i = 0; i < mapArray.length; i++){
@@ -18,6 +23,12 @@ $( document ).ready(function() {
     }
     
     $("#map-div").html(mapHtml);
+
+    function pad ( val ) { return val > 9 ? val : "0" + val; }
+    setInterval( function(){
+        $("#seconds").html(pad(++gameTime%60));
+        $("#minutes").html(pad(parseInt(gameTime/60,10)));
+    }, 1000);
         
     
 });
