@@ -119,7 +119,9 @@ $( document ).ready(function() {
                 }
             }
             //jquery css update
-            $("#" + currI + "-" + currJ).addClass("red-background");
+            console.log("#" + currI + "-" + currJ);
+            $("#" + currI + "-" + currJ).addClass("redBackground");
+            $("#" + oldI + "-" + oldJ).removeClass("redBackground");
         }
 
 
