@@ -1,7 +1,7 @@
 var mapArray = [];
-for(var i = 0; i < 10; i++){
+for(var i = 0; i < 12; i++){
     mapArray[i] = [];    
-    for(var j = 0; j < 10; j++){ 
+    for(var j = 0; j < 12; j++){ 
         mapArray[i][j] = 0;    
     }    
 }
