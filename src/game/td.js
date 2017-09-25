@@ -59,12 +59,8 @@ $( document ).ready(function() {
     for(var i = 0; i < mapArray.length; i++){
         mapHtml += '<div class="row" id="row-' + i + '">';
         for(var j = 0; j < mapArray[i].length; j++){ 
-<<<<<<< HEAD
-            mapHtml += '<span id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
-=======
             mapHtml += '<span class="column" id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
             console.log("hit");
->>>>>>> 4a00e57faab9862e18297e3edb31ea7b0ceffe82
         }
         mapHtml += '</div>';
     }
@@ -87,7 +83,6 @@ $( document ).ready(function() {
         // i, j + 1
         // i + 1, j
         for (var i = 0; i < monsterArray.length; i++){
-            // if is valid loc (otherwise throws error)
             var currI = monsterArray[i].currLoc.i;
             var currJ = monsterArray[i].currLoc.j;
             var oldI = monsterArray[i].oldLoc.i;
@@ -100,7 +95,6 @@ $( document ).ready(function() {
                         monsterArray[i].oldLoc.j = currJ;
                         monsterArray[i].oldLoc.i = currI;                        
                         monsterArray[i].currLoc.j = currJ - 1;
-                        console.log("left");                        
                     }
                 }
             }
@@ -111,8 +105,6 @@ $( document ).ready(function() {
                         monsterArray[i].oldLoc.j = currJ;
                         monsterArray[i].oldLoc.i = currI;                        
                         monsterArray[i].currLoc.j = currJ + 1;
-                        console.log("right");
-                        
                     }
                 }
             }
@@ -123,12 +115,11 @@ $( document ).ready(function() {
                         monsterArray[i].oldLoc.j = currJ;
                         monsterArray[i].oldLoc.i = currI;
                         monsterArray[i].currLoc.i = currI + 1;
-                        console.log("down");
-                        
                     }
                 }
             }
-
+            //jquery css update
+            $("#" + currI + "-" + currJ).addClass("red-background");
         }
         
         
