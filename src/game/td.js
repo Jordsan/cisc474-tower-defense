@@ -57,9 +57,14 @@ class Monster {
 $( document ).ready(function() {
     var mapHtml = "";
     for(var i = 0; i < mapArray.length; i++){
-        mapHtml += '<div id="row-' + i + '">';
+        mapHtml += '<div class="row" id="row-' + i + '">';
         for(var j = 0; j < mapArray[i].length; j++){ 
+<<<<<<< HEAD
             mapHtml += '<span id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
+=======
+            mapHtml += '<span class="column" id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
+            console.log("hit");
+>>>>>>> 4a00e57faab9862e18297e3edb31ea7b0ceffe82
         }
         mapHtml += '</div>';
     }
