@@ -5,6 +5,9 @@
 - make classes non regular classes, use weird js classes
 
 
+- css needs to not just collapse on window size change
+
+
 - SCORE
 
 - GAME OVER
