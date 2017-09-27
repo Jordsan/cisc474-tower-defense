@@ -56,6 +56,30 @@ body{
     background: url('../game/background.jpg');
 }
 
+.tower1{
+    height: 50px;
+    width: 50px;
+    background-color: green;
+}
+
+.tower2{
+    height: 50px;
+    width: 50px;
+    background-color: yellow;
+}
+
+.tower3{
+    height: 50px;
+    width: 50px;
+    background-color: pink;
+}
+
+.tower4{
+    height: 50px;
+    width: 50px;
+    background-color: orange;
+}
+
 .buildable {
     height: 50px;
     width: 50px;
