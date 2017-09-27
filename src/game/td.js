@@ -16,10 +16,25 @@
     - on monster kill increase money
 
 - TOWERS
-    - on click of button, drag(?) to point
-      and spawn at location you want
     - decrease money
     - collision detection of shooting monsters
+    
+
+    - TOWER PSEUDO CODE:
+        when you place a tower:
+            add to tower array
+                tower has position
+            subtract money
+        loop through all towers (inside of main game loop)
+            for each tower:
+                check its 1/2? adjacent tiles for a monster
+                    if there is a monster within range
+                        choose random monster?
+                            (in future maybe choose furthest monster)
+                            "shoot" monster
+                            set monster in specific position to be dead / subtract health
+                        after shooting:
+                            wait X game ticks before being able to shoot again?
 
 
 - overwrite monster array each level
@@ -50,11 +65,17 @@ var mapArray = [
 // F = finish point
 // 1 = grass / dirt
 // 2 = monster
-// 3+ = towers
+// 3 = tower 1;
+// 4 = tower 2;
+// 5 = tower 3;
+// 6 = tower 4;
+
 var chosenTower = false;
 var gameLives = 25;
 var gameScore = 0;
 var gameTime = 0;
+var gameMoney = 100;
+var gameLevel = 1;
 var monsterCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
@@ -182,7 +203,9 @@ $(document).ready(function () {
 
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
-    }, 100);
+        $("#money-value").html(gameMoney);
+        $("#level-value").html(gameLevel);
+    }, 500);
 
     $(".tower-button").click( function(){
         chosenTower = true;
@@ -190,7 +213,10 @@ $(document).ready(function () {
     });
 
 
-    
+    $("#main-menu-button").click(function(){
+        console.log(mapArray);
+    });
+
     $(".buildable").click(function(){
         if (!chosenTower){
             return;
@@ -198,21 +224,29 @@ $(document).ready(function () {
         else{
             if (SelectedTowerId == "tower1")
             {
+                var pos = this.id.split("-");
+                mapArray[pos[0]][pos[1]] = 3;
                 $(this).removeClass("buildable");
                 $(this).addClass("tower1");
             }
             else if (SelectedTowerId == "tower2")
             {
+                var pos = this.id.split("-");
+                mapArray[pos[0]][pos[1]] = 4;
                 $(this).removeClass("buildable");
                 $(this).addClass("tower2");
             }
             else if (SelectedTowerId == "tower3")
             {
+                var pos = this.id.split("-");
+                mapArray[pos[0]][pos[1]] = 5;
                 $(this).removeClass("buildable");
                 $(this).addClass("tower3");
             }
             else if (SelectedTowerId == "tower4")
             {
+                var pos = this.id.split("-");
+                mapArray[pos[0]][pos[1]] = 6;
                 $(this).removeClass("buildable");
                 $(this).addClass("tower4");
             }

@@ -4,53 +4,52 @@
 <head>
     <title>CISC474 Tower Defense</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="td.js"></script>
-    <link rel="stylesheet" href="td.css"
-</head>
+    <link rel="stylesheet" href="td.css" </head>
 
-<body>
-    <div>
-        <div class="continer-fluid" id="gameWrapper">
-
-            
+    <body>
+        <div>
+            <div class="continer-fluid" id="gameWrapper">
                 <div class="row">
                     <h1>Tower Defense Game</h1>
                 </div>
-
-            
-           
                 <div class="row">
                     <div class="col-lg-6">
                         <div id="map-div">
 
                         </div>
                     </div>
+
                     <div class="col-lg-6" id="mapMenu">
-                        <p id="gameMenuTitle">Game Menu</p>
-                        <div id="Towers">
-                            <button class="tower-button" id="tower1">1</button>
-                            <button class="tower-button" id="tower2">2</button>
-                            <button class="tower-button" id="tower3">3</button>
-                            <button class="tower-button" id="tower4">4</button>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <p id="gameMenuTitle">Game Menu</p>
+                            </div>
+
+                            <div id="tower-button-row" class="row">
+                                <button class="btn btn-primary col-lg-3 tower-button" id="tower1">1</button>
+                                <button class="btn btn-primary col-lg-3 tower-button" id="tower2">2</button>
+                                <button class="btn btn-primary col-lg-3 tower-button" id="tower3">3</button>
+                                <button class="btn btn-primary col-lg-3 tower-button" id="tower4">4</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn col-lg-4" id="main-menu-button">Main Menu</button>  
+                                <p class="col-lg-4" id="game-score">Score: <span id="score-value"></span></p>
+                                <p class="col-lg-4" id="game-lives">Lives: <span id="lives-value"></span></p>
+                            </div>
+                            <div class="row">
+                                <p class="col-lg-4" id="game-level">Level: <span id="level-value"></span></p>  
+                                <p class="col-lg-4" id="game-money">Money: <span id="money-value"></span></p>
+                                <p class="col-lg-4" id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>
+                                
+                            </div>
                         </div>
-                        <div id="otherButtons">
-                            <button id="1">small B</button>
-                            <button id="2">medium B</button>
-                            <button id="3">large B</button>
-                        </div>
-                        <p id="game-score">Score: <span id="score-value"></span></p>
-                        <p id="game-lives">Lives: <span id="lives-value"></span></p>
-                        <p id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>
                     </div>
                 </div>
-
-
-       
-
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 
 </html>

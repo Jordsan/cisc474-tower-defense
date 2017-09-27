@@ -31,8 +31,6 @@ h1 {
 #gameWrapper{
     margin: 0 auto;
     text-align: center;
-    zoom: 0.75;
-    -moz-transform: scale(0.75);
 }
 #gameMenuTitle{
     margin-top: 0px;
@@ -54,6 +52,16 @@ h1 {
 }
 body{
     background: url('../game/background.jpg');
+}
+
+
+
+#tower-button-row {
+    display: flex;
+}
+
+.tower-button{
+    flex: 1;
 }
 
 .tower1{
