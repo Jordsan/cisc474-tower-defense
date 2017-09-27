@@ -13,42 +13,45 @@
 <body>
     <div>
         <div class="continer-fluid" id="gameWrapper">
-
-            
                 <div class="row">
                     <h1>Tower Defense Game</h1>
                 </div>
-
-            
-           
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div id="map-div">
 
                         </div>
                     </div>
-                    <div class="col-lg-6" id="mapMenu">
-                        <p id="gameMenuTitle">Game Menu</p>
-                        <div id="Towers">
-                            <button class="menuButtons" id="small">S</button>
-                            <button class="menuButtons" id="medium">M</button>
-                            <button class="menuButtons" id="large">L</button>
-                            <button class="menuButtons" id="extraLarge">XL</button>
+                    <div class="container-fluid">
+                    <div class="col-lg-5" id="mapMenu">
+                            <div class="row">
+                                <p id="gameMenuTitle">Game Menu</p>
+                            </div>
+
+                            <div class="row">
+                                <button class="menuButtons" id="small">S</button>
+                                <button class="menuButtons" id="medium">M</button>
+                                <button class="menuButtons" id="large">L</button>
+                                <button class="menuButtons" id="extraLarge">XL</button>
+                            </div>
+                            <div class="row">
+                                <button id="1">small B</button>
+                                <button id="2">medium B</button>
+                                <button id="3">large B</button>
+                            </div>
+                            <div class="row">
+                                <p id="game-score">Score: <span id="score-value"></span></p>
+                            </div>
+                            <div class="row">
+                                <p id="game-lives">Lives: <span id="lives-value"></span></p>
+                            </div>
+                            <div class="row">
+                                <p id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>
+                            </div>
                         </div>
-                        <div id="otherButtons">
-                            <button id="1">small B</button>
-                            <button id="2">medium B</button>
-                            <button id="3">large B</button>
-                        </div>
-                        <p id="game-score">Score: <span id="score-value"></span></p>
-                        <p id="game-lives">Lives: <span id="lives-value"></span></p>
-                        <p id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>
+
                     </div>
                 </div>
-
-
-       
-
         </div>
     </div>
 </body>
