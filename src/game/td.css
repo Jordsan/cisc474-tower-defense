@@ -10,6 +10,18 @@ h1 {
     color: white;
 }
 
+.smallTower{
+    background-color: green;
+}
+
+.mediumTower{
+    background-color: yellow;
+}
+
+.largeTower{
+    background-color: pink;
+}
+
 .column{
     border:solid black 1px;
     display: table-cell;

@@ -51,12 +51,12 @@ var mapArray = [
 // 1 = grass / dirt
 // 2 = monster
 // 3+ = towers
-
+var chosenTower = false;
 var gameLives = 25;
 var gameScore = 0;
 var gameTime = 0;
 var monsterCount = 0;
-
+var SelectedTowerId;
 var monsterArray = [];
 
 
@@ -74,6 +74,13 @@ class Monster {
         this.currLoc = currLoc;
         this.oldLoc = oldLoc;
         this.isAlive = true;
+    }
+}
+
+class Tower{
+    constructor(id, numLives) {
+        this.id = id;
+        this.numLives = numLives;
     }
 }
  
@@ -168,12 +175,42 @@ $(document).ready(function () {
             monsterCount++;
         }
 
-        console.log("Monster Loc 1: ");
-        console.log("    I: " + monsterArray[0].currLoc.i + "    J: " + monsterArray[0].currLoc.j);
+        //console.log("Monster Loc 1: ");
+        //console.log("    I: " + monsterArray[0].currLoc.i + "    J: " + monsterArray[0].currLoc.j);
         //console.log("Monster Loc 2: ");
         //console.log("    I: " + monsterArray[1].currLoc.i + "    J: " + monsterArray[1].currLoc.j);
 
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
     }, 100);
+});
+
+$("#small").click( function(){
+    chosenTower = true;
+    SelectedTowerId = this.id;
+    console.log("hit");
+});
+
+$(".buildable").click(function(){
+    if (!chosenTower){
+        return;
+    }
+    else{
+        if (SelectedTowerId == "small")
+        {
+            console.log("hit small");
+            this.removeClass();
+            this.addClass("smallTower");
+        }
+        else if (SelectedTowerId == "medium")
+        {
+            this.removeClass();
+            this.addClass("mediumTower");
+        }
+        else if (SelectedTowerId == "large")
+        {
+            this.removeClass();
+            this.addClass("largeTower");
+        }
+    }
 });
