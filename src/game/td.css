@@ -25,7 +25,7 @@ h1 {
 #mapMenu{
     background-color: white;
     width:600px;
-    border:solid black 3px;
+    border:solid lightblue 3px;
     margin: 0 auto ;
 }
 #gameWrapper{
@@ -39,7 +39,6 @@ h1 {
 }
 .menuButtons{
     display: inline-block;
-    width:23%;
     font-family: Aerospace, sans-serif;
 }
 @font-face {

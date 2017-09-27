@@ -175,5 +175,5 @@ $(document).ready(function () {
 
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
-    }, 100);
+    }, 500);
 });
