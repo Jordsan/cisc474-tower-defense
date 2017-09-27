@@ -73,9 +73,9 @@ class Monster {
         this.isAlive = true;
     }
 }
-
+ 
 $(document).ready(function () {
-    var mapHtml = "";
+    var mapHtml = "" ;
     for (var i = 0; i < mapArray.length; i++) {
         mapHtml += '<div class="row" id="row-' + i + '">';
         for (var j = 0; j < mapArray[i].length; j++) {
