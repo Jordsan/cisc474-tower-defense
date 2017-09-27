@@ -2,6 +2,9 @@
 /* --- TO DO ---
 
 
+- make classes non regular classes, use weird js classes
+
+
 - SCORE
 
 - GAME OVER
@@ -20,10 +23,6 @@
     = add in "alive" property to monsters
     - set alive to false when reaches end
     - set alive to false when health <= 0 
-
-
-- need to remove red on F tile at end
-
 
 */
 
@@ -80,7 +79,12 @@ $(document).ready(function () {
     for (var i = 0; i < mapArray.length; i++) {
         mapHtml += '<div class="row" id="row-' + i + '">';
         for (var j = 0; j < mapArray[i].length; j++) {
-            mapHtml += '<span class="column" id="' + i + '-' + j + '">' + mapArray[i][j] + '</span>';
+            if (mapArray[i][j] == 1) {
+                mapHtml += '<span class="column buildable" id="' + i + '-' + j + '">' + '</span>';                
+            }
+            else {
+                mapHtml += '<span class="column path" id="' + i + '-' + j + '">' + '</span>';                
+            }
         }
         mapHtml += '</div>';
     }
@@ -103,10 +107,11 @@ $(document).ready(function () {
                 var oldJ = monsterArray[i].oldLoc.j;
 
                 if (mapArray[currI][currJ] == "F") {
-
                     if (monsterArray[i].isAlive){
                         gameLives--;                        
                     }
+                    //oldI = currI;
+                    //oldJ = currJ;
                     monsterArray[i].isAlive = false;
 
                 }
@@ -133,7 +138,7 @@ $(document).ready(function () {
                 }
                 // move down
                 if (currI + 1 <= 11) {
-                    if (mapArray[currI + 1][currJ] == 0 ||
+                    if (mapArray[currI + 1][currJ] == 0||
                         mapArray[currI + 1][currJ] == "F") {
                         if (oldI != currI + 1) {
                             monsterArray[i].oldLoc.j = currJ;
@@ -141,26 +146,19 @@ $(document).ready(function () {
                             monsterArray[i].currLoc.i = currI + 1;
                         }
                     }
-                    
                 }
 
                 //jquery css update
-                $("#" + currI + "-" + currJ).addClass("redBackground");
-                
-                //if (mapArray[currI][currJ] == "F"){
-                  //  $("#" + currI + "-" + currJ).removeClass("redBackground");                    
-                //}
-                //else {
-                    $("#" + oldI + "-" + oldJ).removeClass("redBackground");                    
-                //}
-
-                
+                if (monsterArray[i].isAlive){
+                    $("#" + currI + "-" + currJ).addClass("redBackground");                    
+                }
+                $("#" + oldI + "-" + oldJ).removeClass("redBackground");                 
             }
         }
 
 
 
-        if (monsterCount < 2) {
+        if (monsterCount < 10) {
             if (mapArray[0][2] == "S") {
                 monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));
             }
@@ -169,11 +167,10 @@ $(document).ready(function () {
 
         console.log("Monster Loc 1: ");
         console.log("    I: " + monsterArray[0].currLoc.i + "    J: " + monsterArray[0].currLoc.j);
-        console.log("Monster Loc 2: ");
-        console.log("    I: " + monsterArray[1].currLoc.i + "    J: " + monsterArray[1].currLoc.j);
-
+        //console.log("Monster Loc 2: ");
+        //console.log("    I: " + monsterArray[1].currLoc.i + "    J: " + monsterArray[1].currLoc.j);
 
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
-    }, 500);
+    }, 100);
 });

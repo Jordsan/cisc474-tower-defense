@@ -1,18 +1,19 @@
 #map-div{
-    width:600px;
-    height:600px;
+    height: 90vh;
+    width: 90vw;
     margin: 0 auto ;
-    display: inline-block;
+    display: table;
 }
+
 .row{
-    padding:15px;
+    
 }
+
 .column{
-    padding:15px;
     border:solid black 1px;
+    display: table-cell;
 }
 .column:hover{
-    padding:15px;
     background-color: darkgray;
     border:solid red 1px;
     cursor:hand;
@@ -55,3 +56,15 @@
 body{
     background: url('../game/background.jpg');
 }
+
+.buildable {
+    height: 50px;
+    width: 50px;
+    background: url('../assets/buildable.png');
+}
+
+.path {
+    width: 50px;
+    height: 50px;
+}
+
