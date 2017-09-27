@@ -3,37 +3,52 @@
 <head>
     <title>CISC474 Tower Defense</title>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>      
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="td.js"></script>
     <link rel="stylesheet" href="td.css">
 </head>
 
 <body>
-<div id="gameWrapper">
-    <h1>Tower Defense Game</h1>
-    <div>
-        <div id="map-div">
+<div>
+    <table id="gameWrapper">
 
-        </div>
-        <div id="mapMenu">
-            <p id="gameMenuTitle">Game Menu</p>
-            <div id="Towers">
-                <button class="menuButtons" id="small">S</button>
-                <button class="menuButtons" id="medium">M</button>
-                <button class="menuButtons" id="large">L</button>
-                <button class="menuButtons" id="extraLarge">XL</button>
-            </div>
-            <div id="otherButtons">
-                <button id="1">small B</button>
-                <button id="2">medium B</button>
-                <button id="3">large B</button>
-            </div>
-            <p id="game-score">Score: <span id="score-value"></span></p>
-            <p id="game-lives">Lives: <span id="lives-value"></span></p>
-            <p id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>            
-        </div>
-    </div>
+        <tr>
+            <th colspan="3">
+                <h1>Tower Defense Game</h1>
+            </th>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="map-div">
+
+                </div>
+            </td>
+            <td>
+                <div id="mapMenu">
+                    <p id="gameMenuTitle">Game Menu</p>
+                    <div id="Towers">
+                        <button class="menuButtons" id="small">S</button>
+                        <button class="menuButtons" id="medium">M</button>
+                        <button class="menuButtons" id="large">L</button>
+                        <button class="menuButtons" id="extraLarge">XL</button>
+                    </div>
+                    <div id="otherButtons">
+                        <button id="1">small B</button>
+                        <button id="2">medium B</button>
+                        <button id="3">large B</button>
+                    </div>
+                    <p id="game-score">Score: <span id="score-value"></span></p>
+                    <p id="game-lives">Lives: <span id="lives-value"></span></p>
+                    <p id="game-time">Time: <span id="minutes"></span>:<span id="seconds"></span></p>
+                </div>
+            </td>
+
+        </tr>
+
+    </table>
 </div>
 </body>
 </html>
