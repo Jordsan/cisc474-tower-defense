@@ -20,6 +20,9 @@
     - collision detection of shooting monsters
     
 
+    - THE DETECTION FOR VALID MONSTERS IS SHIT
+        - we loop through 
+
     - TOWER PSEUDO CODE:
         when you place a tower:
             add to tower array
@@ -44,19 +47,27 @@
 
 */
 
+class Tile {
+    constructor(val, monster){
+        this.val = val;
+        this.monster = monster;
+    }
+}
+
 var mapArray = [
-    [1, 1, "S", 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-    [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, "F", 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null), new Tile(0, null), new Tile(0, null), 
+        new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
+    [1, 1, new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), 1, 1],
+    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile("F", null), 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
 
@@ -70,6 +81,8 @@ var mapArray = [
 // 5 = tower 3;
 // 6 = tower 4;
 
+var towerArray = [];
+
 var chosenTower = false;
 var gameLives = 25;
 var gameScore = 0;
@@ -79,6 +92,8 @@ var gameLevel = 1;
 var monsterCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
+
+
 
 
 class Point {
@@ -99,9 +114,11 @@ class Monster {
 }
 
 class Tower{
-    constructor(id, numLives) {
+    constructor(i, j, id, damage) {
+        this.i = i;
+        this.j = j;
         this.id = id;
-        this.numLives = numLives;
+        this.damage = damage;
     }
 }
  
@@ -137,19 +154,19 @@ $(document).ready(function () {
                 var oldI = monsterArray[i].oldLoc.i;
                 var oldJ = monsterArray[i].oldLoc.j;
 
-                if (mapArray[currI][currJ] == "F") {
+                
+
+                if (mapArray[currI][currJ].val == "F") {
                     if (monsterArray[i].isAlive){
                         gameLives--;                        
                     }
-                    //oldI = currI;
-                    //oldJ = currJ;
                     monsterArray[i].isAlive = false;
-
                 }
 
                 // move left
                 if (currJ - 1 >= 0) {
-                    if (mapArray[currI][currJ - 1] == 0) {
+                    if (mapArray[currI][currJ - 1].val == 0 || 
+                        mapArray[currI][currJ - 1].val == 2) {
                         if (oldJ != currJ - 1) {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
@@ -159,7 +176,8 @@ $(document).ready(function () {
                 }
                 // move right
                 if (currJ + 1 <= 11) {
-                    if (mapArray[currI][currJ + 1] == 0) {
+                    if (mapArray[currI][currJ + 1].val == 0 ||
+                        mapArray[currI][currJ + 1].val == 2) {
                         if (oldJ != currJ + 1) {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
@@ -169,8 +187,9 @@ $(document).ready(function () {
                 }
                 // move down
                 if (currI + 1 <= 11) {
-                    if (mapArray[currI + 1][currJ] == 0||
-                        mapArray[currI + 1][currJ] == "F") {
+                    if (mapArray[currI + 1][currJ].val == 0||
+                        mapArray[currI + 1][currJ].val == 2 ||
+                        mapArray[currI + 1][currJ].val == "F") {
                         if (oldI != currI + 1) {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
@@ -179,27 +198,100 @@ $(document).ready(function () {
                     }
                 }
 
+                if (monsterArray[i].health <= 0) {
+                    monsterArray[i].isAlive = false;
+                }
+
                 //jquery css update
                 if (monsterArray[i].isAlive){
-                    $("#" + currI + "-" + currJ).addClass("redBackground");                    
+                    $("#" + currI + "-" + currJ).addClass("redBackground"); 
+                    mapArray[currI][currJ].val = 2;
+                    mapArray[currI][currJ].monster = monsterArray[i];  
                 }
-                $("#" + oldI + "-" + oldJ).removeClass("redBackground");                 
+                $("#" + oldI + "-" + oldJ).removeClass("redBackground");
+                mapArray[oldI][oldJ].val = 0;
+                mapArray[oldI][oldJ].monster = null;                                     
+                
             }
         }
 
-
-
         if (monsterCount < 10) {
-            if (mapArray[0][2] == "S") {
-                monsterArray[monsterCount] = new Monster(0, 5, new Point(0, 2), new Point(0, 0));
-            }
+            monsterArray[monsterCount] = new Monster(0, 2, new Point(0, 2), new Point(0, 0));
             monsterCount++;
         }
 
-        //console.log("Monster Loc 1: ");
-        //console.log("    I: " + monsterArray[0].currLoc.i + "    J: " + monsterArray[0].currLoc.j);
-        //console.log("Monster Loc 2: ");
-        //console.log("    I: " + monsterArray[1].currLoc.i + "    J: " + monsterArray[1].currLoc.j);
+        $.each(towerArray, function(index, value){
+            var towerI = parseInt(value.i);
+            var towerJ = parseInt(value.j);
+            var validMonsters = [];
+            
+
+            if (towerI - 1 >= 0 && towerJ - 1 >= 0){
+                if (typeof(mapArray[towerI - 1][towerJ - 1]) === 'object') {
+                    if (mapArray[towerI - 1][towerJ - 1].val == 2) {
+                        mapArray[towerI - 1][towerJ - 1].monster.health -= 1;
+                    }
+                }
+            }
+
+            if (towerI - 1 >= 0) {
+                if (typeof(mapArray[towerI - 1][towerJ]) === 'object') {
+                    if (mapArray[towerI - 1][towerJ].val == 2) {
+                        mapArray[towerI - 1][towerJ].monster.health -= 1;                        
+                    }
+                }
+            }
+            
+            if (towerI - 1 >= 0 && towerJ + 1 < 12) {
+                if (typeof(mapArray[towerI - 1][towerJ + 1]) === 'object') {
+                    if (mapArray[towerI - 1][towerJ + 1].val == 2) {
+                        mapArray[towerI - 1][towerJ + 1].monster.health -= 1;                        
+                    }   
+                }
+            }
+            
+            if (towerJ - 1 >= 0) {
+                if (typeof(mapArray[towerI][towerJ - 1]) === 'object') {
+                    if (mapArray[towerI][towerJ - 1].val == 2) {
+                        mapArray[towerI][towerJ - 1].monster.health -= 1;                        
+                    }
+                }
+            }
+            
+            if (towerJ + 1 < 12) {
+                if (typeof(mapArray[towerI][towerJ + 1]) === 'object') {
+                    if (mapArray[towerI][towerJ + 1].val == 2) {
+                        mapArray[towerI][towerJ + 1].monster.health -= 1;
+                    }
+                }
+            }
+            
+            if (towerI + 1 < 12 && towerJ - 1 >= 0){
+                if (typeof(mapArray[towerI + 1][towerJ - 1]) === 'object') {  
+                    if (mapArray[towerI + 1][towerJ - 1].val == 2) {
+                        mapArray[towerI + 1][towerJ - 1].monster.health -= 1;                        
+                    }
+                }
+            }
+            
+            if (towerI + 1 < 12){
+                if (typeof(mapArray[towerI + 1][towerJ]) === 'object') {
+                    if (mapArray[towerI + 1][towerJ].val == 2) {
+                        mapArray[towerI + 1][towerJ].monster.health -= 1;                        
+                    }
+                }
+            }
+            
+            if (towerI + 1 < 12 && towerJ + 1 < 12){
+                if (typeof(mapArray[towerI + 1][towerJ + 1]) === 'object') {
+                    if (mapArray[towerI + 1][towerJ + 1].val == 2) {
+                        mapArray[towerI + 1][towerJ + 1].monster.health -= 1;                        
+                    }
+                }
+            }
+            
+
+        });
 
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
@@ -215,6 +307,7 @@ $(document).ready(function () {
 
     $("#main-menu-button").click(function(){
         console.log(mapArray);
+        console.log(towerArray);
     });
 
     $(".buildable").click(function(){
@@ -226,6 +319,7 @@ $(document).ready(function () {
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 3;
+                towerArray.push(new Tower (pos[0], pos[1], 3, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower1");
             }
@@ -233,6 +327,7 @@ $(document).ready(function () {
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 4;
+                towerArray.push(new Tower (pos[0], pos[1], 4, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower2");
             }
@@ -240,6 +335,7 @@ $(document).ready(function () {
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 5;
+                towerArray.push(new Tower (pos[0], pos[1], 5, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower3");
             }
@@ -247,6 +343,7 @@ $(document).ready(function () {
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 6;
+                towerArray.push(new Tower (pos[0], pos[1], 6, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower4");
             }
