@@ -131,7 +131,7 @@ $(document).ready(function () {
                 mapHtml += '<span class="column buildable" id="' + i + '-' + j + '">' + '</span>';                
             }
             else {
-                mapHtml += '<span class="column path" id="' + i + '-' + j + '">' + '</span>';                
+                mapHtml += '<span class="column path" id="' + i + '-' + j + '">' + '</span>';
             }
         }
         mapHtml += '</div>';
@@ -204,13 +204,16 @@ $(document).ready(function () {
 
                 //jquery css update
                 if (monsterArray[i].isAlive){
-                    $("#" + currI + "-" + currJ).addClass("redBackground"); 
+                    $("#" + currI + "-" + currJ).addClass("monsterPic");
                     mapArray[currI][currJ].val = 2;
                     mapArray[currI][currJ].monster = monsterArray[i];  
                 }
-                $("#" + oldI + "-" + oldJ).removeClass("redBackground");
+                $("#" + oldI + "-" + oldJ).removeClass("monsterPic");
                 mapArray[oldI][oldJ].val = 0;
                 mapArray[oldI][oldJ].monster = null;                                     
+                
+                   
+                
                 
             }
         }
