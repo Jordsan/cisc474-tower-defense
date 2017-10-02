@@ -30,6 +30,7 @@
 
 
 - animations
+    - just add in translations now
 
 
 */
@@ -78,7 +79,7 @@ var gameTime = 0;
 var gameMoney = 100;
 var gameLevel = 1;
 var monsterCount = 0;
-var monstersPerLevel = 10;
+var monstersPerLevel = 5;
 var killCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
@@ -160,6 +161,17 @@ $(document).ready(function () {
             $("#next-level-button").hide();            
         }
 
+        if (monsterCount < monstersPerLevel) {
+            monsterArray[monsterCount] = new Monster(0, 2, new Point(0, 2), new Point(0, 0));
+
+            $("#monster-div").append(
+                '<div class="monsterDiv monsterPic" id="monster-' + (monsterCount + 1) + '"></div>'
+            );
+
+            $("#monster-" + (monsterCount + 1)).css('top', 0);
+            $("#monster-" + (monsterCount + 1)).css('left', 150);            
+            monsterCount++;
+        }
 
         if (monsterArray.length > 0) {
             for (var i = 0; i < monsterArray.length; i++) {
@@ -224,28 +236,25 @@ $(document).ready(function () {
 
                 //jquery css update
                 if (monsterArray[i].isAlive) {
-                    $("#" + currI + "-" + currJ).addClass("monsterPic");
+                    $("#monster-" + (i + 1)).css('top', 50 * currI);
+                    $("#monster-" + (i + 1)).css('left', 50 * (currJ + 1)); 
                     mapArray[currI][currJ].val = 2;
                     mapArray[currI][currJ].monster = monsterArray[i];
                 }
-                $("#" + oldI + "-" + oldJ).removeClass("monsterPic");
+                else {
+                    $("#monster-" + (i + 1)).remove();                    
+                }
                 mapArray[oldI][oldJ].val = 0;
                 mapArray[oldI][oldJ].monster = null;
-
-                
             }
         }
 
-        if (monsterCount < monstersPerLevel) {
-            monsterArray[monsterCount] = new Monster(0, 2, new Point(0, 2), new Point(0, 0));
-            monsterCount++;
-        }
+        
 
         $.each(towerArray, function (index, value) {
             var towerI = parseInt(value.i);
             var towerJ = parseInt(value.j);
             var validMonsters = [];
-
 
             if (towerI - 1 >= 0 && towerJ - 1 >= 0) {
                 if (typeof (mapArray[towerI - 1][towerJ - 1]) === 'object') {

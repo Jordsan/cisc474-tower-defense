@@ -101,3 +101,7 @@ body{
     height: 50px;
     background: url('../assets/monster.png');
 }
+
+.monsterDiv {
+    position: absolute;
+}
