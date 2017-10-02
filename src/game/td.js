@@ -4,7 +4,6 @@
 
 - make classes non regular classes, use weird js classes
 
-
 - css needs to not just collapse on window size change
 
 
@@ -12,38 +11,25 @@
     - maybe harder ?
 
 
-- SCORE
-
 - GAME OVER
 
-- MONEY
-    - on monster kill increase money
-    - if not enough money for tower, cant click on button
 
 - TOWERS
-    - decrease money
-    - collision detection of shooting monsters
-    
+    - add different types:
+        = damage
+        - attack speed
+        - attack range
+        - upgrades
 
-    - THE DETECTION FOR VALID MONSTERS IS SHIT
-        - we loop through 
 
-    - TOWER PSEUDO CODE:
-        when you place a tower:
-            add to tower array
-                tower has position
-            subtract money
-        loop through all towers (inside of main game loop)
-            for each tower:
-                check its 1/2? adjacent tiles for a monster
-                    if there is a monster within range
-                        choose random monster?
-                            (in future maybe choose furthest monster)
-                            "shoot" monster
-                            set monster in specific position to be dead / subtract health
-                        after shooting:
-                            wait X game ticks before being able to shoot again?
+- MONSTERS
+    - different types:
+        = health
+        - gold value
+        - speed
 
+
+- animations
 
 
 */
@@ -97,9 +83,6 @@ var killCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
 var nextLevel = false;
-
-
-
 
 class Point {
     constructor(i, j) {
@@ -163,9 +146,8 @@ $(document).ready(function () {
         nextLevel = false;
     });
 
+
     // game loop
-
-
     setInterval(function () {
         if (killCount >= monstersPerLevel) {
             nextLevel = true;
@@ -331,7 +313,7 @@ $(document).ready(function () {
 
             if (validMonsters.length > 0) {
                 var randomMonster = Math.floor(Math.random() * validMonsters.length);
-                validMonsters[randomMonster].health -= 1;
+                validMonsters[randomMonster].health -= towerArray[index].damage;
             }
 
         });
@@ -343,14 +325,10 @@ $(document).ready(function () {
 
     }, 500);
 
-
-
     $(".tower-button").click(function () {
         chosenTower = true;
         SelectedTowerId = (this).id;
     });
-
-
 
 
     $(".buildable").click(function () {
@@ -408,7 +386,7 @@ $(document).ready(function () {
             else if (SelectedTowerId == "tower5")
             {
                 var pos = this.id.split("-");
-                mapArray[pos[0]][pos[1]] = 6;
+                mapArray[pos[0]][pos[1]] = 7;
                 towerArray.push(new Tower (pos[0], pos[1], 7, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower5");
