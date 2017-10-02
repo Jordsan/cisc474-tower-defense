@@ -350,6 +350,14 @@ $(document).ready(function () {
                 $(this).removeClass("buildable");
                 $(this).addClass("tower4");
             }
+            else if (SelectedTowerId == "tower5")
+            {
+                var pos = this.id.split("-");
+                mapArray[pos[0]][pos[1]] = 6;
+                towerArray.push(new Tower (pos[0], pos[1], 7, 1));
+                $(this).removeClass("buildable");
+                $(this).addClass("tower5");
+            }
             chosenTower = false;
         }
     });
