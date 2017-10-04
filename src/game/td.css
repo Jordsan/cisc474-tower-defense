@@ -58,13 +58,6 @@ body{
 
 .tower-button{
     flex: 1;
-}
-
-.tower1,
-.tower2,
-.tower3,
-.tower4,
-.tower5 {
     width: 50px;
     height: 50px;
     background-position: center center;
@@ -72,7 +65,7 @@ body{
     background-size: cover;
 }
 
-.towerContainer{
+#towerContainer{
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
@@ -80,33 +73,35 @@ body{
     min-width: 500px;
 }
 
-.towerContainer > button {
+#towerContainer > button {
     display: -moz-inline-box;
     display: inline; /* For IE7 */
     text-align: center;
 }
 
-.tower1{
+#tower1{
     background-image: url('../assets/tower1.png');
+    margin-left:67px;
     margin-right:30px;
 }
 
-.tower2{
+#tower2{
     background-image: url('../assets/tower2.png');
     margin-right:30px;
 }
 
-.tower3{
+#tower3{
     background-image: url('../assets/tower3.png');
     margin-right:30px;
 }
 
-.tower4{
+#tower4{
     background-image: url('../assets/tower4.png');
     margin-right:30px;
 }
-.tower5{
+#tower5{
     background-image: url('../assets/tower5.png');
+    margin-right:67px;
 }
 
 .buildable {
