@@ -60,22 +60,19 @@ body{
     flex: 1;
 }
 
-.tower1{
-    background: url('../assets/tower1.png');
-}
-
 .tower1,
 .tower2,
 .tower3,
 .tower4,
 .tower5 {
-    display: inline-block;
-    width:50px;
+    width: 50px;
     height: 50px;
-    vertical-align: top;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-#towerContainer{
+.towerContainer{
     text-align: justify;
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;
@@ -83,35 +80,33 @@ body{
     min-width: 500px;
 }
 
-#towerContainer > button {
-    display: inline-block;
+.towerContainer > button {
     display: -moz-inline-box;
-    *display: inline; /* For IE7 */
-    zoom: 1; /* Trigger hasLayout */
-    width: 33%;
+    display: inline; /* For IE7 */
     text-align: center;
 }
 
-/*#stretch{
-    width: 100%;
-    display: inline-block;
-    font-size: 0;
-    line-height: 0
-}*/
+.tower1{
+    background-image: url('../assets/tower1.png');
+    margin-right:30px;
+}
 
 .tower2{
-    background: url('../assets/tower2.png');
+    background-image: url('../assets/tower2.png');
+    margin-right:30px;
 }
 
 .tower3{
-    background: url('../assets/tower3.png');
+    background-image: url('../assets/tower3.png');
+    margin-right:30px;
 }
 
 .tower4{
-    background: url('../assets/tower4.png');
+    background-image: url('../assets/tower4.png');
+    margin-right:30px;
 }
 .tower5{
-    background: url('../assets/tower5.png');
+    background-image: url('../assets/tower5.png');
 }
 
 .buildable {
