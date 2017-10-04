@@ -84,6 +84,8 @@ var killCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
 var nextLevel = false;
+var topOffset = 0;
+var leftOffset = 0;
 
 class Point {
     constructor(i, j) {
@@ -168,8 +170,11 @@ $(document).ready(function () {
                 '<div class="monsterDiv monsterPic" id="monster-' + (monsterCount + 1) + '"></div>'
             );
 
-            $("#monster-" + (monsterCount + 1)).css('top', 0);
-            $("#monster-" + (monsterCount + 1)).css('left', 150);            
+            topOffset = $("#map-div").position().top;
+            leftOffset = $("#map-div").offset().left + 100;
+
+            $("#monster-" + (monsterCount + 1)).css('top', topOffset);
+            $("#monster-" + (monsterCount + 1)).css('left', leftOffset);            
             monsterCount++;
         }
 
@@ -179,6 +184,8 @@ $(document).ready(function () {
                 var currJ = monsterArray[i].currLoc.j;
                 var oldI = monsterArray[i].oldLoc.i;
                 var oldJ = monsterArray[i].oldLoc.j;
+
+                var nextMove = "";
 
 
 
@@ -198,6 +205,8 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.j = currJ - 1;
+
+                            nextMove = "left";
                         }
                     }
                 }
@@ -209,6 +218,8 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.j = currJ + 1;
+
+                            nextMove = "right";
                         }
                     }
                 }
@@ -221,6 +232,8 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.i = currI + 1;
+
+                            nextMove = "down";
                         }
                     }
                 }
@@ -236,8 +249,25 @@ $(document).ready(function () {
 
                 //jquery css update
                 if (monsterArray[i].isAlive) {
-                    $("#monster-" + (i + 1)).css('top', 50 * currI);
-                    $("#monster-" + (i + 1)).css('left', 50 * (currJ + 1)); 
+                   
+
+                    //$("#monster-" + (i + 1)).css('top', topOffset);
+                    //$("#monster-" + (i + 1)).css('left', leftOffset); 
+
+                    switch (nextMove) {
+                        case "right":
+                            $("#monster-" + (i + 1)).animate({left: '+=50px'});            
+                            break;
+                        case "left":
+                            $("#monster-" + (i + 1)).animate({left: '-=50px'}); 
+                            break;
+                        case "down":
+                            $("#monster-" + (i + 1)).animate({top:'+=50px'}); 
+                            break;
+                        default:
+                            break;
+                    }
+
                     mapArray[currI][currJ].val = 2;
                     mapArray[currI][currJ].monster = monsterArray[i];
                 }
