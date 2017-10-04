@@ -58,31 +58,56 @@ body{
 }
 
 .tower1{
-    height: 50px;
-    width: 50px;
     background: url('../assets/tower1.png');
 }
 
-.tower2{
+.tower1,
+.tower2,
+.tower3,
+.tower4,
+.tower5 {
+    display: inline-block;
+    width:50px;
     height: 50px;
-    width: 50px;
+    vertical-align: top;
+}
+
+#towerContainer{
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    /* just for demo */
+    min-width: 500px;
+}
+
+#towerContainer > button {
+    display: inline-block;
+    display: -moz-inline-box;
+    *display: inline; /* For IE7 */
+    zoom: 1; /* Trigger hasLayout */
+    width: 33%;
+    text-align: center;
+}
+
+/*#stretch{
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+}*/
+
+.tower2{
     background: url('../assets/tower2.png');
 }
 
 .tower3{
-    height: 50px;
-    width: 50px;
     background: url('../assets/tower3.png');
 }
 
 .tower4{
-    height: 50px;
-    width: 50px;
     background: url('../assets/tower4.png');
 }
 .tower5{
-    height: 50px;
-    width: 50px;
     background: url('../assets/tower5.png');
 }
 
