@@ -30,32 +30,34 @@
 
 
 - animations
-    - just add in translations now
+    - add in shooting animations 
 
 
 */
 
 class Tile {
-    constructor(val, monster) {
+    constructor(val, monster, direction) {
         this.val = val;
         this.monster = monster;
+        this.direction = direction;
     }
 }
 
 var mapArray = [
-    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile(0, null), new Tile(0, null), new Tile(0, null),
-        new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null), 1, 1],
-    [1, 1, new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), new Tile(0, null), 1, 1],
-    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile(0, null), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile("F", null), 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"),
+        new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "top_right"), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
+    [1, 1, new Tile(0, null, "top_left"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), 
+        new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "bottom_right"), 1, 1],
+    [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, new Tile("F", null, "base"), 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
 
 
@@ -122,7 +124,32 @@ $(document).ready(function () {
                 mapHtml += '<span class="column buildable" id="' + i + '-' + j + '">' + '</span>';
             }
             else {
-                mapHtml += '<span class="column path" id="' + i + '-' + j + '">' + '</span>';
+                mapHtml += '<span class="column path ';
+
+                switch(mapArray[i][j].direction){
+                    case "top_left":
+                        mapHtml += "top_left";
+                        break;
+                    case "top_right":
+                        mapHtml += "top_right";
+                        break;
+                    case "bottom_left":
+                        mapHtml += "bottom_left";
+                        break;
+                    case "bottom_right":
+                        mapHtml += "bottom_right";
+                        break;
+                    case "vertical":
+                        mapHtml += "vertical";
+                        break;
+                    case "horizontal":
+                        mapHtml += "horizontal";
+                        break;
+                    default:
+                        break;
+                }
+                
+                mapHtml += '" id="' + i + '-' + j + '">' + '</span>';
             }
         }
         mapHtml += '</div>';
@@ -382,6 +409,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 3, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower1");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 10;
                 }
@@ -393,6 +421,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 4, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower2");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 20;
                 }
@@ -405,6 +434,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 5, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower3");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 30;
                 }
@@ -417,6 +447,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 6, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower4");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 40;
                 }
@@ -429,6 +460,7 @@ $(document).ready(function () {
                 towerArray.push(new Tower (pos[0], pos[1], 7, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower5");
+                $(this).addClass("tile-tower");
             }
             chosenTower = false;
         }

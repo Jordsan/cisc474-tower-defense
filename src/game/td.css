@@ -1,9 +1,7 @@
-
-
-#map-div{
+#map-div {
     position: relative;
-    background-color: white; 
-    margin: 0 auto ;
+    background-color: white;
+    margin: 0 auto;
     display: table;
 }
 
@@ -11,88 +9,114 @@ h1 {
     color: white;
 }
 
-.column{
+.column {
     display: table-cell;
 }
-.column:hover{
+
+.column:hover {
     background-color: darkgray;
-    border:solid red 1px;
-    cursor:hand;
+    border: solid red 1px;
+    cursor: hand;
 }
-.redBackground{
+
+.redBackground {
     background-color: red;
 }
-#mapMenu{
+
+#mapMenu {
     background-color: white;
-    width:600px;
-    border:solid lightblue 3px;
-    margin: 0 auto ;
+    width: 600px;
+    border: solid lightblue 3px;
+    margin: 0 auto;
 }
-#gameWrapper{
+
+#gameWrapper {
     width: 95%;
-    min-width: 1350px;
+    min-width: 1500px;
     margin: 0 auto;
     text-align: center;
 }
-#gameMenuTitle{
+
+#gameMenuTitle {
     margin-top: 0px;
 }
-.menuButtons{
+
+.menuButtons {
     display: inline-block;
     font-family: Aerospace, sans-serif;
 }
+
 @font-face {
-    font-family:"Aerospace";
-    src: url("../game/Aerospace.ttf") /* TTF file for CSS3 browsers */
+    font-family: "Aerospace";
+    src: url("../game/Aerospace.ttf")/* TTF file for CSS3 browsers */
 }
 
-#Towers{
-    border:solid black 3px;
+#Towers {
+    border: solid black 3px;
 }
-#otherButtons{
-    border:solid black 3px;
+
+#otherButtons {
+    border: solid black 3px;
 }
-body{
+
+body {
     background: url('../game/background.jpg');
 }
 
-.tower-button{
+#towerContainer {
+    padding-bottom: 5px;
+}
+
+.tower-button {
     flex: 1;
-}
-
-.tower1{
-    background: url('../assets/tower1.png');
-}
-
-.tower1,
-.tower2,
-.tower3,
-.tower4,
-.tower5 {
-    display: inline-block;
-    width:50px;
+    width: 50px;
     height: 50px;
     vertical-align: top;
 }
 
-#towerContainer{
-    padding-bottom: 5px;
+#tower1 {
+    background: url('../assets/tower1.png');
 }
 
-
-
-.tower2{
+#tower2 {
     background: url('../assets/tower2.png');
 }
 
-.tower3{
+#tower3 {
     background: url('../assets/tower3.png');
 }
 
-.tower4{
+#tower4 {
     background: url('../assets/tower4.png');
 }
-.tower5{
+
+#tower5 {
+    background: url('../assets/tower5.png');
+}
+
+.tile-tower {
+    flex: 1;
+    width: 50px;
+    height: 50px;
+}
+
+.tower1 {
+    background: url('../assets/tower1.png');
+}
+
+.tower2 {
+    background: url('../assets/tower2.png');
+}
+
+.tower3 {
+    background: url('../assets/tower3.png');
+}
+
+.tower4 {
+    background: url('../assets/tower4.png');
+}
+
+.tower5 {
     background: url('../assets/tower5.png');
 }
 
@@ -106,7 +130,32 @@ body{
     width: 50px;
     height: 50px;
 }
-.monsterPic{
+
+.top_left {
+    background: url('../assets/path_top_left.png');
+}
+
+.top_right {
+    background: url('../assets/path_top_right.png');
+}
+
+.bottom_left {
+    background: url('../assets/path_bottom_left.png');
+}
+
+.bottom_right {
+    background: url('../assets/path_bottom_right.png');
+}
+
+.horizontal {
+    background: url('../assets/path_horizontal.png');
+}
+
+.vertical {
+    background: url('../assets/path_vertical.png');
+}
+
+.monsterPic {
     width: 50px;
     height: 50px;
     background: url('../assets/monster.png');
