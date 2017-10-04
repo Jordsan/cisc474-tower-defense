@@ -256,13 +256,13 @@ $(document).ready(function () {
 
                     switch (nextMove) {
                         case "right":
-                            $("#monster-" + (i + 1)).animate({left: '+=50px'});            
+                            $("#monster-" + (i + 1)).animate({left: '+=50px'}, 500, 'linear');            
                             break;
                         case "left":
-                            $("#monster-" + (i + 1)).animate({left: '-=50px'}); 
+                            $("#monster-" + (i + 1)).animate({left: '-=50px'}, 500, 'linear'); 
                             break;
                         case "down":
-                            $("#monster-" + (i + 1)).animate({top:'+=50px'}); 
+                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
                             break;
                         default:
                             break;
