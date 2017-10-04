@@ -382,6 +382,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 3, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower1");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 10;
                 }
@@ -393,6 +394,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 4, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower2");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 20;
                 }
@@ -405,6 +407,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 5, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower3");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 30;
                 }
@@ -417,6 +420,7 @@ $(document).ready(function () {
                     towerArray.push(new Tower(pos[0], pos[1], 6, 1));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower4");
+                    $(this).addClass("tile-tower");
 
                     gameMoney -= 40;
                 }
@@ -429,6 +433,7 @@ $(document).ready(function () {
                 towerArray.push(new Tower (pos[0], pos[1], 7, 1));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower5");
+                $(this).addClass("tile-tower");
             }
             chosenTower = false;
         }
