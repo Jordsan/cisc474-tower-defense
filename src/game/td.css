@@ -1,6 +1,7 @@
 
 
 #map-div{
+    position: relative;
     background-color: white; 
     margin: 0 auto ;
     display: table;
@@ -28,6 +29,8 @@ h1 {
     margin: 0 auto ;
 }
 #gameWrapper{
+    width: 95%;
+    min-width: 1350px;
     margin: 0 auto;
     text-align: center;
 }
