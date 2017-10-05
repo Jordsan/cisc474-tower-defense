@@ -4,33 +4,45 @@
 
 - make classes non regular classes, use weird js classes
 
-- css needs to not just collapse on window size change
-
-
 - MAKE SECOND MAP
     - maybe harder ?
 
 
-- GAME OVER
-
-
 - TOWERS
     - add different types:
-        = damage
         - attack speed
         - attack range
-        - upgrades
+    
+    
+    - upgrades (ties into tower details) 
+        - when you click on a tower that you have placed on the map a little tower details box appears
+            - the tower details box has the same thing as listed below here V
+                but instead of the gold cost to build it, theres a gold cost to upgrade it
+            - you can click on the upgrade button to upgrade the tower
+                - potentially show what stats change when upgrading?
+
+    - tower details (low priority)
+        - when you hover your mouse over a tower in the menu you get a quick
+            summary of the tower's stats
+            - ex gold cost, damage, attack rate, range, special ability, etc
+
+    - sell tower (low priority)
+        - click on a tower and a sell tower button appears
 
 
 - MONSTERS
     - different types:
-        = health
-        - gold value
-        - speed
-
+        - speed differences?
 
 - animations
     - add in shooting animations 
+        - each tower might have differnet shooting animation / sprite
+    - towers face direction they are shooting (8 adjacent directions)
+        - 8 different sprites for every tower
+
+
+- home base image
+    - death animation when enemy reaches base?
 
 
 */
@@ -43,17 +55,20 @@ class Tile {
     }
 }
 
+
+// make this right and left not horizontal
+
 var mapArray = [
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"),
-        new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "top_right"), 1, 1],
+    [1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "right"), new Tile(0, null, "right"),
+        new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "top_right"), 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1],
-    [1, 1, new Tile(0, null, "top_left"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), 
-        new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "horizontal"), new Tile(0, null, "bottom_right"), 1, 1],
+    [1, 1, new Tile(0, null, "top_left"), new Tile(0, null, "left"), new Tile(0, null, "left"), new Tile(0, null, "left"), 
+        new Tile(0, null, "left"), new Tile(0, null, "left"), new Tile(0, null, "left"), new Tile(0, null, "bottom_right"), 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -78,14 +93,15 @@ var chosenTower = false;
 var gameLives = 25;
 var gameScore = 0;
 var gameTime = 0;
-var gameMoney = 100;
-var gameLevel = 1;
+var gameMoney = 30;
+var gameLevel = 0;
 var monsterCount = 0;
-var monstersPerLevel = 5;
+var monstersPerLevel = 2;
 var killCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
 var nextLevel = false;
+var gameOver = false;
 var topOffset = 0;
 var leftOffset = 0;
 
@@ -116,6 +132,8 @@ class Tower {
 }
 
 $(document).ready(function () {
+    $("#next-level-button").hide();
+    $("#game-over-button").hide();
     var mapHtml = "";
     for (var i = 0; i < mapArray.length; i++) {
         mapHtml += '<div class="row" id="row-' + i + '">';
@@ -142,7 +160,10 @@ $(document).ready(function () {
                     case "vertical":
                         mapHtml += "vertical";
                         break;
-                    case "horizontal":
+                    case "right":
+                        mapHtml += "horizontal";
+                        break;
+                    case "left":
                         mapHtml += "horizontal";
                         break;
                     default:
@@ -164,18 +185,18 @@ $(document).ready(function () {
     }, 1000);
 
     $("#next-level-button").click(function () {
-        console.log(mapArray);
-        console.log(towerArray);
-        console.log(monsterArray);
-
         monsterArray = new Array();
         monsterCount = 0;
-        killCount = 0;        
+        killCount = 0;   
+        gameMoney += (gameLevel + 1) * 3;     
         gameLevel += 1;
-
+        
         nextLevel = false;
     });
 
+    $("#game-over-button").click(function () {
+        location.reload(true);
+    });
 
     // game loop
     setInterval(function () {
@@ -183,22 +204,35 @@ $(document).ready(function () {
             nextLevel = true;
         }
 
+        if (gameLives <= 0) {
+            gameOver = true;
+        }
+
         if (nextLevel){
-            $("#next-level-button").show();
+            if (!gameOver){
+                $("#next-level-button").show();                
+            }
         }
         else {
             $("#next-level-button").hide();            
+        }   
+
+        if (gameOver) {
+            $("#game-over-button").show();
         }
+        else {
+            $("#game-over-button").hide();
+        }   
 
         if (monsterCount < monstersPerLevel) {
-            monsterArray[monsterCount] = new Monster(0, 2, new Point(0, 2), new Point(0, 0));
+            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, new Point(0, 2), new Point(0, 0));
 
             $("#monster-div").append(
-                '<div class="monsterDiv monsterPic" id="monster-' + (monsterCount + 1) + '"></div>'
+                '<div class="monsterDiv monster-level-' + (gameLevel % 5) + '_S" id="monster-' + (monsterCount + 1) + '"></div>'
             );
 
             topOffset = $("#map-div").position().top;
-            leftOffset = $("#map-div").offset().left + 100;
+            leftOffset = $("#map-div").position().left + $("#map-div").offset().left + $("#0-2").position().left;
 
             $("#monster-" + (monsterCount + 1)).css('top', topOffset);
             $("#monster-" + (monsterCount + 1)).css('left', leftOffset);            
@@ -211,10 +245,6 @@ $(document).ready(function () {
                 var currJ = monsterArray[i].currLoc.j;
                 var oldI = monsterArray[i].oldLoc.i;
                 var oldJ = monsterArray[i].oldLoc.j;
-
-                var nextMove = "";
-
-
 
                 if (mapArray[currI][currJ].val == "F") {
                     if (monsterArray[i].isAlive) {
@@ -232,8 +262,6 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.j = currJ - 1;
-
-                            nextMove = "left";
                         }
                     }
                 }
@@ -245,8 +273,6 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.j = currJ + 1;
-
-                            nextMove = "right";
                         }
                     }
                 }
@@ -259,42 +285,67 @@ $(document).ready(function () {
                             monsterArray[i].oldLoc.j = currJ;
                             monsterArray[i].oldLoc.i = currI;
                             monsterArray[i].currLoc.i = currI + 1;
-
-                            nextMove = "down";
                         }
                     }
                 }
 
                 if (monsterArray[i].health <= 0) {
                     if (monsterArray[i].isAlive) {
-                        gameMoney += 1;
-                        gameScore += 10 * gameLevel;
+                        gameMoney += (gameLevel + 1);
+                        gameScore += 10 * (gameLevel + 1);
                         killCount += 1;
                     }
                     monsterArray[i].isAlive = false;
                 }
-
+                var direction = "";
                 //jquery css update
                 if (monsterArray[i].isAlive) {
-                   
-
-                    //$("#monster-" + (i + 1)).css('top', topOffset);
-                    //$("#monster-" + (i + 1)).css('left', leftOffset); 
-
-                    switch (nextMove) {
+                    switch (mapArray[currI][currJ].direction) {
+                        case "top_left":
+                            direction = "top_left";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-W");
+                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
+                            break;
+                        case "top_right":
+                            direction = "top_right";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-E");
+                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
+                            break;
+                        case "bottom_left":
+                            direction = "right";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-S");
+                            $("#monster-" + (i + 1)).animate({left: '+=50px'}, 500, 'linear');    
+                            break;
+                        case "bottom_right":
+                            direction = "bottom_right";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-S");
+                            $("#monster-" + (i + 1)).animate({left: '-=50px'}, 500, 'linear');
+                            break;
+                        case "vertical":
+                            direction = "vertical";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-SW")
+                                .removeClass("monster-level-" + (gameLevel % 5) + "-SE");
+                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
+                            break;
                         case "right":
+                            direction = "right";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E");
                             $("#monster-" + (i + 1)).animate({left: '+=50px'}, 500, 'linear');            
                             break;
                         case "left":
+                            direction = "left";
+                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W");
                             $("#monster-" + (i + 1)).animate({left: '-=50px'}, 500, 'linear'); 
-                            break;
-                        case "down":
-                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
                             break;
                         default:
                             break;
                     }
-
+                    
                     mapArray[currI][currJ].val = 2;
                     mapArray[currI][currJ].monster = monsterArray[i];
                 }
@@ -387,7 +438,7 @@ $(document).ready(function () {
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
         $("#money-value").html(gameMoney);
-        $("#level-value").html(gameLevel);
+        $("#level-value").html(gameLevel + 1);
 
     }, 500);
 
@@ -418,7 +469,7 @@ $(document).ready(function () {
                 if (gameMoney >= 20) {
                     var pos = this.id.split("-");
                     mapArray[pos[0]][pos[1]] = 4;
-                    towerArray.push(new Tower(pos[0], pos[1], 4, 1));
+                    towerArray.push(new Tower(pos[0], pos[1], 4, 2));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower2");
                     $(this).addClass("tile-tower");
@@ -431,7 +482,7 @@ $(document).ready(function () {
                 if (gameMoney >= 30) {
                     var pos = this.id.split("-");
                     mapArray[pos[0]][pos[1]] = 5;
-                    towerArray.push(new Tower(pos[0], pos[1], 5, 1));
+                    towerArray.push(new Tower(pos[0], pos[1], 5, 4));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower3");
                     $(this).addClass("tile-tower");
@@ -444,7 +495,7 @@ $(document).ready(function () {
                 if (gameMoney >= 40) {
                     var pos = this.id.split("-");
                     mapArray[pos[0]][pos[1]] = 6;
-                    towerArray.push(new Tower(pos[0], pos[1], 6, 1));
+                    towerArray.push(new Tower(pos[0], pos[1], 6, 8));
                     $(this).removeClass("buildable");
                     $(this).addClass("tower4");
                     $(this).addClass("tile-tower");
@@ -457,10 +508,12 @@ $(document).ready(function () {
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 7;
-                towerArray.push(new Tower (pos[0], pos[1], 7, 1));
+                towerArray.push(new Tower (pos[0], pos[1], 7, 16));
                 $(this).removeClass("buildable");
                 $(this).addClass("tower5");
                 $(this).addClass("tile-tower");
+
+                gameMoney -= 50;
             }
             chosenTower = false;
         }
