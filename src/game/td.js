@@ -2,9 +2,9 @@
 /* --- TO DO ---
 
 
-- make classes non regular classes, use weird js classes
+- make classes non regular classes, use weird js classes **DONE**
 
-- MAKE SECOND MAP
+- MAKE SECOND MAP **DONE**
     - maybe harder ?
 
 
@@ -47,18 +47,21 @@
 
 */
 
-class Tile {
-    constructor(val, monster, direction) {
-        this.val = val;
-        this.monster = monster;
-        this.direction = direction;
-    }
-}
+function Tile(val, monster, direction) {
+    this.val = val;
+    this.monster = monster;
+    this.direction = direction;
+};
 
 
 // make this right and left not horizontal
 
-var mapArray = [
+// Level 1 Details:
+function getMapStartPoint() {
+    return new Point(0, 2);
+};
+
+var map1Array = [
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "right"), new Tile(0, null, "right"),
@@ -73,6 +76,31 @@ var mapArray = [
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, new Tile("F", null, "base"), 1, 1, 1, 1, 1, 1, 1, 1, 1]
+];
+
+// Map 2 - Harder than Map 1
+
+function getMap2StartPoint() {
+    return new Point(0, 0);
+};
+
+var map2Array = [
+    [new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"),
+    new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "top_right"), 1, 1, 1, 1], 
+	[1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1], 
+	[1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1], 
+	[1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1], 
+    [1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "right"), 
+        new Tile(0, null, "right"), new Tile(0, null, "top_right"), 1], 
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1], 
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1], 
+    [1, 1, 1, 1, 1, new Tile(0, null, "top_left"), new Tile(0, null, "left"), new Tile(0, null, "left"), 
+        new Tile(0, null, "left"), new Tile(0, null, "left"), new Tile(0, null, "bottom_right"), 1], 
+	[1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1], 
+	[1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1], 
+	[1, 1, 1, 1, 1, new Tile(0, null, "vertical"), 1, 1, 1, 1, 1, 1], 
+    [1, 1, 1, 1, 1, new Tile(0, null, "bottom_left"), new Tile(0, null, "right"), new Tile(0, null, "right"), 
+        new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile(0, null, "right"), new Tile("F", null, "base")]
 ];
 
 
@@ -104,34 +132,30 @@ var nextLevel = false;
 var gameOver = false;
 var topOffset = 0;
 var leftOffset = 0;
+var monsterSpeed = 1;
 
-class Point {
-    constructor(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-}
+function Point(i, j) {
+    this.i = i;
+    this.j = j;
+};
 
-class Monster {
-    constructor(id, health, currLoc, oldLoc) {
-        this.id = id;
-        this.health = health;
-        this.currLoc = currLoc;
-        this.oldLoc = oldLoc;
-        this.isAlive = true;
-    }
-}
+function Monster(id, health, currLoc, oldLoc, speed) {
+    this.id = id;
+    this.health = health;
+    this.currLoc = currLoc;
+    this.oldLoc = oldLoc;
+    this.speed = speed;
+    this.isAlive = true;
+};
 
-class Tower {
-    constructor(i, j, id, damage) {
-        this.i = i;
-        this.j = j;
-        this.id = id;
-        this.damage = damage;
-    }
-}
+function Tower(i, j, id, damage) {
+    this.i = i;
+    this.j = j;
+    this.id = id;
+    this.damage = damage;
+};
 
-$(document).ready(function () {
+function drawMap(mapArray) {
     $("#next-level-button").hide();
     $("#game-over-button").hide();
     var mapHtml = "";
@@ -183,11 +207,141 @@ $(document).ready(function () {
         $("#seconds").html(pad(++gameTime % 60));
         $("#minutes").html(pad(parseInt(gameTime / 60, 10)));
     }, 1000);
+};
+
+function moveMonsters(mapArray) {
+    if (monsterArray.length > 0) {
+        for (var i = 0; i < monsterArray.length; i++) {
+            var currI = monsterArray[i].currLoc.i;
+            var currJ = monsterArray[i].currLoc.j;
+            var oldI = monsterArray[i].oldLoc.i;
+            var oldJ = monsterArray[i].oldLoc.j;
+
+            if (mapArray[currI][currJ].val == "F") {
+                if (monsterArray[i].isAlive) {
+                    gameLives--;
+                    killCount += 1;
+                }
+                monsterArray[i].isAlive = false;
+            }
+
+            // move left
+            if (currJ - 1 >= 0) {
+                if (mapArray[currI][currJ - 1].val == 0 ||
+                    mapArray[currI][currJ - 1].val == 2) {
+                    if (oldJ != currJ - 1) {
+                        monsterArray[i].oldLoc.j = currJ;
+                        monsterArray[i].oldLoc.i = currI;
+                        monsterArray[i].currLoc.j = currJ - 1;
+                    }
+                }
+            }
+            // move right
+            if (currJ + 1 <= 11) {
+                if (mapArray[currI][currJ + 1].val == 0 ||
+                    mapArray[currI][currJ + 1].val == 2) {
+                    if (oldJ != currJ + 1) {
+                        monsterArray[i].oldLoc.j = currJ;
+                        monsterArray[i].oldLoc.i = currI;
+                        monsterArray[i].currLoc.j = currJ + 1;
+                    }
+                }
+            }
+            // move down
+            if (currI + 1 <= 11) {
+                if (mapArray[currI + 1][currJ].val == 0 ||
+                    mapArray[currI + 1][currJ].val == 2 ||
+                    mapArray[currI + 1][currJ].val == "F") {
+                    if (oldI != currI + 1) {
+                        monsterArray[i].oldLoc.j = currJ;
+                        monsterArray[i].oldLoc.i = currI;
+                        monsterArray[i].currLoc.i = currI + 1;
+                    }
+                }
+            }
+
+            if (monsterArray[i].health <= 0) {
+                if (monsterArray[i].isAlive) {
+                    gameMoney += (gameLevel + 1);
+                    gameScore += 10 * (gameLevel + 1);
+                    killCount += 1;
+                }
+                monsterArray[i].isAlive = false;
+            }
+            var direction = "";
+            //jquery css update
+            if (monsterArray[i].isAlive) {
+                switch (mapArray[currI][currJ].direction) {
+                    case "top_left":
+                        direction = "top_left";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-W");
+                        $("#monster-" + (i + 1)).animate({ top: '+=50px' }, 500, 'linear');
+                        break;
+                    case "top_right":
+                        direction = "top_right";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-E");
+                        $("#monster-" + (i + 1)).animate({ top: '+=50px' }, 500, 'linear');
+                        break;
+                    case "bottom_left":
+                        direction = "right";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-S");
+                        $("#monster-" + (i + 1)).animate({ left: '+=50px' }, 500, 'linear');
+                        break;
+                    case "bottom_right":
+                        direction = "bottom_right";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-S");
+                        $("#monster-" + (i + 1)).animate({ left: '-=50px' }, 500, 'linear');
+                        break;
+                    case "vertical":
+                        direction = "vertical";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-SW")
+                            .removeClass("monster-level-" + (gameLevel % 5) + "-SE");
+                        $("#monster-" + (i + 1)).animate({ top: '+=50px' }, 500, 'linear');
+                        break;
+                    case "right":
+                        direction = "right";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E");
+                        $("#monster-" + (i + 1)).animate({ left: '+=50px' }, 500, 'linear');
+                        break;
+                    case "left":
+                        direction = "left";
+                        $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W");
+                        $("#monster-" + (i + 1)).animate({ left: '-=50px' }, 500, 'linear');
+                        break;
+                    default:
+                        break;
+                }
+
+                mapArray[currI][currJ].val = 2;
+                mapArray[currI][currJ].monster = monsterArray[i];
+            }
+            else {
+                $("#monster-" + (i + 1)).hide().remove();
+            }
+            mapArray[oldI][oldJ].val = 0;
+            mapArray[oldI][oldJ].monster = null;
+        }
+    }
+};
+
+$(document).ready(function () {
+    
+    var mapArray = map1Array;
+    drawMap(mapArray);
 
     $("#next-level-button").click(function () {
         monsterArray = new Array();
         monsterCount = 0;
+        monstersPerLevel = monstersPerLevel;
+        mapArray = map2Array;
+        drawMap(mapArray);
         killCount = 0;   
+        monsterSpeed = 3;
         gameMoney += (gameLevel + 1) * 3;     
         gameLevel += 1;
         
@@ -225,7 +379,8 @@ $(document).ready(function () {
         }   
 
         if (monsterCount < monstersPerLevel) {
-            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, new Point(0, 2), new Point(0, 0));
+            
+            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, getMapStartPoint(), new Point(0, 0), monsterSpeed);
 
             $("#monster-div").append(
                 '<div class="monsterDiv monster-level-' + (gameLevel % 5) + '_S" id="monster-' + (monsterCount + 1) + '"></div>'
@@ -239,126 +394,8 @@ $(document).ready(function () {
             monsterCount++;
         }
 
-        if (monsterArray.length > 0) {
-            for (var i = 0; i < monsterArray.length; i++) {
-                var currI = monsterArray[i].currLoc.i;
-                var currJ = monsterArray[i].currLoc.j;
-                var oldI = monsterArray[i].oldLoc.i;
-                var oldJ = monsterArray[i].oldLoc.j;
-
-                if (mapArray[currI][currJ].val == "F") {
-                    if (monsterArray[i].isAlive) {
-                        gameLives--;
-                        killCount += 1;
-                    }
-                    monsterArray[i].isAlive = false;
-                }
-
-                // move left
-                if (currJ - 1 >= 0) {
-                    if (mapArray[currI][currJ - 1].val == 0 ||
-                        mapArray[currI][currJ - 1].val == 2) {
-                        if (oldJ != currJ - 1) {
-                            monsterArray[i].oldLoc.j = currJ;
-                            monsterArray[i].oldLoc.i = currI;
-                            monsterArray[i].currLoc.j = currJ - 1;
-                        }
-                    }
-                }
-                // move right
-                if (currJ + 1 <= 11) {
-                    if (mapArray[currI][currJ + 1].val == 0 ||
-                        mapArray[currI][currJ + 1].val == 2) {
-                        if (oldJ != currJ + 1) {
-                            monsterArray[i].oldLoc.j = currJ;
-                            monsterArray[i].oldLoc.i = currI;
-                            monsterArray[i].currLoc.j = currJ + 1;
-                        }
-                    }
-                }
-                // move down
-                if (currI + 1 <= 11) {
-                    if (mapArray[currI + 1][currJ].val == 0 ||
-                        mapArray[currI + 1][currJ].val == 2 ||
-                        mapArray[currI + 1][currJ].val == "F") {
-                        if (oldI != currI + 1) {
-                            monsterArray[i].oldLoc.j = currJ;
-                            monsterArray[i].oldLoc.i = currI;
-                            monsterArray[i].currLoc.i = currI + 1;
-                        }
-                    }
-                }
-
-                if (monsterArray[i].health <= 0) {
-                    if (monsterArray[i].isAlive) {
-                        gameMoney += (gameLevel + 1);
-                        gameScore += 10 * (gameLevel + 1);
-                        killCount += 1;
-                    }
-                    monsterArray[i].isAlive = false;
-                }
-                var direction = "";
-                //jquery css update
-                if (monsterArray[i].isAlive) {
-                    switch (mapArray[currI][currJ].direction) {
-                        case "top_left":
-                            direction = "top_left";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-W");
-                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
-                            break;
-                        case "top_right":
-                            direction = "top_right";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-E");
-                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
-                            break;
-                        case "bottom_left":
-                            direction = "right";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-S");
-                            $("#monster-" + (i + 1)).animate({left: '+=50px'}, 500, 'linear');    
-                            break;
-                        case "bottom_right":
-                            direction = "bottom_right";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-S");
-                            $("#monster-" + (i + 1)).animate({left: '-=50px'}, 500, 'linear');
-                            break;
-                        case "vertical":
-                            direction = "vertical";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-S")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-SW")
-                                .removeClass("monster-level-" + (gameLevel % 5) + "-SE");
-                            $("#monster-" + (i + 1)).animate({top:'+=50px'}, 500, 'linear'); 
-                            break;
-                        case "right":
-                            direction = "right";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-E");
-                            $("#monster-" + (i + 1)).animate({left: '+=50px'}, 500, 'linear');            
-                            break;
-                        case "left":
-                            direction = "left";
-                            $("#monster-" + (i + 1)).addClass("monster-level-" + (gameLevel % 5) + "-W");
-                            $("#monster-" + (i + 1)).animate({left: '-=50px'}, 500, 'linear'); 
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    mapArray[currI][currJ].val = 2;
-                    mapArray[currI][currJ].monster = monsterArray[i];
-                }
-                else {
-                    $("#monster-" + (i + 1)).remove();                    
-                }
-                mapArray[oldI][oldJ].val = 0;
-                mapArray[oldI][oldJ].monster = null;
-            }
-        }
-
-        
-
+        moveMonsters(mapArray);
+    
         $.each(towerArray, function (index, value) {
             var towerI = parseInt(value.i);
             var towerJ = parseInt(value.j);
