@@ -44,6 +44,30 @@
 
 */
 
+/***** Class Definitions ******/
+
+function Point(i, j) {
+    this.i = i;
+    this.j = j;
+};
+
+function Monster(id, health, currLoc, oldLoc, speed, index) {
+    this.id = id;
+    this.health = health;
+    this.currLoc = currLoc;
+    this.oldLoc = oldLoc;
+    this.speed = speed;
+    this.isAlive = true;
+    this.index = index;
+};
+
+function Tower(i, j, id, damage) {
+    this.i = i;
+    this.j = j;
+    this.id = id;
+    this.damage = damage;
+};
+
 function Tile(val, monster, direction) {
     this.val = val;
     this.monster = monster;
@@ -51,7 +75,90 @@ function Tile(val, monster, direction) {
 };
 
 
-// make this right and left not horizontal
+// UNFINISHED: AUTO MAP CREATION
+
+function createRightTile() {
+    return new Tile(0, null, "right");
+}
+
+function createLeftTile() {
+    return new Tile(0, null, "left");
+}
+
+function createVerticalTile() {
+    return new Tile(0, null, "vertical");
+}
+
+function createTopLeftTile() {
+    return new Tile(0, null, "top_left");
+}
+
+function createTopRightTile() {
+    return new Tile(0, null, "top_right");
+}
+
+function createBottomLeftTile() {
+    return new Tile(0, null, "bottom_left");
+}
+
+function createBottomRightTile() {
+    return new Tile(0, null, "bottom_right");
+}
+
+function createBaseTile() {
+    return new Tile("F", null, "base");
+}
+
+function randomNumberFromRange(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function generateRandomMap() {
+    var map = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ];
+    // Pick a starting point on top row
+    var currentPoint = new Point(0, randomNumberFromRange(0, 12));
+    // If start point is far left
+    if (currentPoint.j == 0) {
+        var choice = randomNumberFromRange(1, 2);
+        if (choice == 1) { // go right
+            map[currentPoint.i][currentPoint.j] = createRightTile();
+        }
+        if (choice == 2) { // go down
+            map[currentPoint.i][currentPoint.j] = createVerticalTile();
+        }
+    }
+    // if start point is far right
+    if (currentPoint.j == 11) {
+        var choice = randomNumberFromRange(1, 2);
+        if (choice == 1) { // go left
+            map[currentPoint.i][currentPoint.j] = createLeftTile();
+        }
+        if (choice == 2) { // go down
+            map[currentPoint.i][currentPoint.j] = createVerticalTile();
+        }
+    }
+    var mapFinished = false;
+    var PreviousPoint;
+    while (!mapFinished) {
+        // 
+        PreviousPoint 
+    }
+   
+};
 
 // Level 1 Details:
 function getMapStartPoint() {
@@ -137,27 +244,6 @@ var t3Count = 0;
 var t4Count = 0;
 var t5Count = 0;
 
-function Point(i, j) {
-    this.i = i;
-    this.j = j;
-};
-
-function Monster(id, health, currLoc, oldLoc, speed) {
-    this.id = id;
-    this.health = health;
-    this.currLoc = currLoc;
-    this.oldLoc = oldLoc;
-    this.speed = speed;
-    this.isAlive = true;
-};
-
-function Tower(i, j, id, damage) {
-    this.i = i;
-    this.j = j;
-    this.id = id;
-    this.damage = damage;
-};
-
 function drawMap(mapArray) {
     $("#next-level-button").hide();
     $("#game-over-button").hide();
@@ -193,6 +279,8 @@ function drawMap(mapArray) {
                     case "left":
                         mapHtml += "horizontal";
                         break;
+                    case "base":
+                        mapHtml += "base";
                     default:
                         break;
                 }
@@ -324,7 +412,8 @@ function moveMonsters(mapArray) {
                 mapArray[currI][currJ].monster = monsterArray[i];
             }
             else {
-                $("#monster-" + (i + 1)).hide().remove();
+                $("#monster-" + (i + 1)).remove();
+
             }
             mapArray[oldI][oldJ].val = 0;
             mapArray[oldI][oldJ].monster = null;
@@ -383,10 +472,14 @@ $(document).ready(function () {
 
         if (monsterCount < monstersPerLevel) {
             
-            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, getMapStartPoint(), new Point(0, 0), monsterSpeed);
+            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, getMapStartPoint(), new Point(0, 0), monsterSpeed, monsterCount + 1);
 
             $("#monster-div").append(
                 '<div class="monsterDiv monster-level-' + (gameLevel % 5) + '_S" id="monster-' + (monsterCount + 1) + '"></div>'
+            );
+            var monsterId = "monster-" + (monsterCount + 1);
+            $("#" + monsterId).prepend(
+                '<progress id="' + monsterId + 'health" value="' + ((gameLevel + 1) * 4) + '"' + 'max="' + ((gameLevel + 1) * 4) + '"' + 'style="width:40px" class="testClass"></progress>'
             );
 
             topOffset = $("#map-div").position().top;
@@ -471,6 +564,11 @@ $(document).ready(function () {
             if (validMonsters.length > 0) {
                 var randomMonster = Math.floor(Math.random() * validMonsters.length);
                 validMonsters[randomMonster].health -= towerArray[index].damage;
+                var monsterId = "monster-" + (monsterCount + 1);
+                var healthId = validMonsters[randomMonster].index;
+                var idString = "monster-" + healthId + "health";
+                $("#" + idString).attr("value", validMonsters[randomMonster].health);
+            
 
                 //animations
                 var count = 0;
@@ -545,6 +643,8 @@ $(document).ready(function () {
                     $(this).removeClass("buildable");
                     $(this).addClass("tower1");
                     $(this).addClass("tile-tower");
+                    $(this).attr("title", "Damage: 1");
+
 
                     gameMoney -= 10;
 
@@ -620,22 +720,25 @@ $(document).ready(function () {
             }
             else if (SelectedTowerId == "tower5")
             {
-                var pos = this.id.split("-");
-                mapArray[pos[0]][pos[1]] = 7;
-                towerArray.push(new Tower (pos[0], pos[1], 7, 16)); 
-                $(this).removeClass("buildable");
-                $(this).addClass("tower5");
-                $(this).addClass("tile-tower");
-
-                gameMoney -= 50;
-
-                t5Count += 1;
-                $("#projectile-div").append(
-                    '<div class="projectile projectile7" id="projectile7-' + t5Count + '"></div>'
-                );
-                $("#projectile7-" + t5Count).css('top', $(this).position().top);
-                $('#projectile7-' + t5Count).css('left', $(this).offset().left); 
-                $("#projectile7-" + t5Count).hide();
+                if (gameMoney >= 50) {
+                    var pos = this.id.split("-");
+                    mapArray[pos[0]][pos[1]] = 7;
+                    towerArray.push(new Tower (pos[0], pos[1], 7, 16)); 
+                    $(this).removeClass("buildable");
+                    $(this).addClass("tower5");
+                    $(this).addClass("tile-tower");
+    
+                    gameMoney -= 50;
+    
+                    t5Count += 1;
+                    $("#projectile-div").append(
+                        '<div class="projectile projectile7" id="projectile7-' + t5Count + '"></div>'
+                    );
+                    $("#projectile7-" + t5Count).css('top', $(this).position().top);
+                    $('#projectile7-' + t5Count).css('left', $(this).offset().left); 
+                    $("#projectile7-" + t5Count).hide();
+                }
+                
             }
             chosenTower = false;
         }
