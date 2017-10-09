@@ -261,3 +261,37 @@ body {
     height: 50px;
     background: url('../assets/monster_5_W.png');
 }
+
+.projectile {
+    position: absolute;
+}
+
+.projectile3 {
+    width: 10px;
+    height: 10px;
+    background: url('../assets/laser.png');
+}
+
+.projectile4 {
+    width: 10px;
+    height: 10px;
+    background: url('../assets/laser.png');
+}
+
+.projectile5 {
+    width: 10px;
+    height: 10px;
+    background: url('../assets/laser.png');
+}
+
+.projectile6 {
+    width: 10px;
+    height: 10px;
+    background: url('../assets/laser.png');
+}
+
+.projectile7 {
+    width: 10px;
+    height: 10px;
+    background: url('../assets/laser.png');
+}

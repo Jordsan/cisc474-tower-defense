@@ -1,9 +1,6 @@
 
 /* --- TO DO ---
 
-
-- make classes non regular classes, use weird js classes **DONE**
-
 - MAKE SECOND MAP **DONE**
     - maybe harder ?
 
@@ -133,6 +130,12 @@ var gameOver = false;
 var topOffset = 0;
 var leftOffset = 0;
 var monsterSpeed = 1;
+
+var t1Count = 0;
+var t2Count = 0;
+var t3Count = 0;
+var t4Count = 0;
+var t5Count = 0;
 
 function Point(i, j) {
     this.i = i;
@@ -338,8 +341,8 @@ $(document).ready(function () {
         monsterArray = new Array();
         monsterCount = 0;
         monstersPerLevel = monstersPerLevel;
-        mapArray = map2Array;
-        drawMap(mapArray);
+        //mapArray = map2Array;
+        //drawMap(mapArray);
         killCount = 0;   
         monsterSpeed = 3;
         gameMoney += (gameLevel + 1) * 3;     
@@ -387,7 +390,7 @@ $(document).ready(function () {
             );
 
             topOffset = $("#map-div").position().top;
-            leftOffset = $("#map-div").position().left + $("#map-div").offset().left + $("#0-2").position().left;
+            leftOffset = $("#map-div").offset().left + $("#0-2").position().left;
 
             $("#monster-" + (monsterCount + 1)).css('top', topOffset);
             $("#monster-" + (monsterCount + 1)).css('left', leftOffset);            
@@ -468,10 +471,52 @@ $(document).ready(function () {
             if (validMonsters.length > 0) {
                 var randomMonster = Math.floor(Math.random() * validMonsters.length);
                 validMonsters[randomMonster].health -= towerArray[index].damage;
+
+                //animations
+                var count = 0;
+                switch (towerArray[index].id) {
+                    case 3:
+                        count = t1Count;
+                        break;
+                    case 4:
+                        count = t2Count;
+                        break;
+                    case 5:
+                        count = t3Count;
+                        break;
+                    case 6:
+                        count = t4Count;
+                        break;
+                    case 7:
+                        count = t5Count;
+                        break;
+                }
+
+                $("#projectile" + towerArray[index].id + "-" + count).show();
+                $("#projectile" + towerArray[index].id + "-" + count).css('top', $("#" + towerI + "-" + towerJ).position().top + 20);
+                $("#projectile" + towerArray[index].id + "-" + count).css('left', $("#" + towerI + "-" + towerJ).offset().left + 20);
+
+                var topOffset2 = $("#map-div").position().top;
+                var leftOffset2 = $("#map-div").position().left + $("#0-2").position().left;
+
+                var topMove = 20 + topOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().top; 
+                var leftMove = leftOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().left;
+                
+                if (towerJ < validMonsters[randomMonster].currLoc.j) {
+                    leftMove -= 20;
+                }
+                else {
+                    leftMove += 20;
+                }
+
+                $("#projectile" + towerArray[index].id + "-" + count).animate({
+                    top: topMove,
+                    left: leftMove
+                }, 400, "linear", function () {
+                    $(this).hide();
+                });
             }
-
         });
-
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
         $("#money-value").html(gameMoney);
@@ -484,8 +529,10 @@ $(document).ready(function () {
         SelectedTowerId = (this).id;
     });
 
-
     $(".buildable").click(function () {
+        topOffset = $("#map-div").position().top;
+        leftOffset = $("#map-div").offset().left + $("#0-2").position().left;
+
         if (!chosenTower) {
             return;
         }
@@ -500,6 +547,14 @@ $(document).ready(function () {
                     $(this).addClass("tile-tower");
 
                     gameMoney -= 10;
+
+                    t1Count += 1;
+                    $("#projectile-div").append(
+                        '<div class="projectile projectile3" id="projectile3-' + t1Count + '"></div>'
+                    );
+                    $("#projectile3-" + t1Count).css('top', $(this).position().top);
+                    $('#projectile3-' + t1Count).css('left', $(this).offset().left); 
+                    $("#projectile3-" + t1Count).hide();
                 }
             }
             else if (SelectedTowerId == "tower2") {
@@ -512,8 +567,15 @@ $(document).ready(function () {
                     $(this).addClass("tile-tower");
 
                     gameMoney -= 20;
-                }
 
+                    t2Count += 1;
+                    $("#projectile-div").append(
+                        '<div class="projectile projectile4" id="projectile4-' + t2Count + '"></div>'
+                    );
+                    $("#projectile4-" + t2Count).css('top', $(this).position().top);
+                    $('#projectile4-' + t2Count).css('left', $(this).offset().left); 
+                    $("#projectile4-" + t2Count).hide();
+                }
             }
             else if (SelectedTowerId == "tower3") {
                 if (gameMoney >= 30) {
@@ -525,6 +587,14 @@ $(document).ready(function () {
                     $(this).addClass("tile-tower");
 
                     gameMoney -= 30;
+
+                    t3Count += 1;
+                    $("#projectile-div").append(
+                        '<div class="projectile projectile5" id="projectile5-' + t3Count + '"></div>'
+                    );
+                    $("#projectile5-" + t3Count).css('top', $(this).position().top);
+                    $('#projectile5-' + t3Count).css('left', $(this).offset().left); 
+                    $("#projectile5-" + t3Count).hide();
                 }
 
             }
@@ -538,19 +608,34 @@ $(document).ready(function () {
                     $(this).addClass("tile-tower");
 
                     gameMoney -= 40;
-                }
 
+                    t4Count += 1;
+                    $("#projectile-div").append(
+                        '<div class="projectile projectile6" id="projectile6-' + t4Count + '"></div>'
+                    );
+                    $("#projectile6-" + t4Count).css('top', $(this).position().top);
+                    $('#projectile6-' + t4Count).css('left', $(this).offset().left); 
+                    $("#projectile6-" + t4Count).hide();
+                }
             }
             else if (SelectedTowerId == "tower5")
             {
                 var pos = this.id.split("-");
                 mapArray[pos[0]][pos[1]] = 7;
-                towerArray.push(new Tower (pos[0], pos[1], 7, 16));
+                towerArray.push(new Tower (pos[0], pos[1], 7, 16)); 
                 $(this).removeClass("buildable");
                 $(this).addClass("tower5");
                 $(this).addClass("tile-tower");
 
                 gameMoney -= 50;
+
+                t5Count += 1;
+                $("#projectile-div").append(
+                    '<div class="projectile projectile7" id="projectile7-' + t5Count + '"></div>'
+                );
+                $("#projectile7-" + t5Count).css('top', $(this).position().top);
+                $('#projectile7-' + t5Count).css('left', $(this).offset().left); 
+                $("#projectile7-" + t5Count).hide();
             }
             chosenTower = false;
         }
