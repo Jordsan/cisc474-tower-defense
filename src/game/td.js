@@ -412,8 +412,8 @@ function moveMonsters(mapArray) {
                 mapArray[currI][currJ].monster = monsterArray[i];
             }
             else {
-                $("#monster-" + (i + 1)).remove();
-
+                $("#monster-" + (i + 1)).hide('explode', { "pieces":10 }, 300, function() { $("#monster-" + (i + 1)).hide().remove(); });
+            
             }
             mapArray[oldI][oldJ].val = 0;
             mapArray[oldI][oldJ].monster = null;
