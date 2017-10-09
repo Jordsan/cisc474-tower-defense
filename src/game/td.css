@@ -9,6 +9,10 @@ h1 {
     color: white;
 }
 
+.row {
+    font-size: 20px;
+}
+
 .column {
     display: table-cell;
 }

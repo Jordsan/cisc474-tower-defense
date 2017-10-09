@@ -228,7 +228,7 @@ var gameTime = 0;
 var gameMoney = 30;
 var gameLevel = 0;
 var monsterCount = 0;
-var monstersPerLevel = 2;
+var monstersPerLevel = 5;
 var killCount = 0;
 var SelectedTowerId;
 var monsterArray = [];
@@ -237,6 +237,7 @@ var gameOver = false;
 var topOffset = 0;
 var leftOffset = 0;
 var monsterSpeed = 1;
+var totalKillCount = 0;
 
 var t1Count = 0;
 var t2Count = 0;
@@ -312,6 +313,7 @@ function moveMonsters(mapArray) {
                 if (monsterArray[i].isAlive) {
                     gameLives--;
                     killCount += 1;
+                    
                 }
                 monsterArray[i].isAlive = false;
             }
@@ -356,6 +358,7 @@ function moveMonsters(mapArray) {
                     gameMoney += (gameLevel + 1);
                     gameScore += 10 * (gameLevel + 1);
                     killCount += 1;
+                    totalKillCount += 1;
                 }
                 monsterArray[i].isAlive = false;
             }
@@ -429,12 +432,13 @@ $(document).ready(function () {
     $("#next-level-button").click(function () {
         monsterArray = new Array();
         monsterCount = 0;
-        monstersPerLevel = monstersPerLevel;
+        monstersPerLevel = gameLevel + 6;
+
         //mapArray = map2Array;
         //drawMap(mapArray);
         killCount = 0;   
         monsterSpeed = 3;
-        gameMoney += (gameLevel + 1) * 3;     
+        gameMoney += (gameLevel + 1) * 5;     
         gameLevel += 1;
         
         nextLevel = false;
@@ -472,7 +476,7 @@ $(document).ready(function () {
 
         if (monsterCount < monstersPerLevel) {
             
-            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 4, getMapStartPoint(), new Point(0, 0), monsterSpeed, monsterCount + 1);
+            monsterArray[monsterCount] = new Monster((gameLevel + 1), (gameLevel + 1) * 3, getMapStartPoint(), new Point(0, 0), monsterSpeed, monsterCount + 1);
 
             $("#monster-div").append(
                 '<div class="monsterDiv monster-level-' + (gameLevel % 5) + '_S" id="monster-' + (monsterCount + 1) + '"></div>'
@@ -618,6 +622,7 @@ $(document).ready(function () {
         $("#score-value").html(gameScore);
         $("#lives-value").html(gameLives);
         $("#money-value").html(gameMoney);
+        $("#kills-value").html(totalKillCount);
         $("#level-value").html(gameLevel + 1);
 
     }, 500);
