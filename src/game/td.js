@@ -492,29 +492,29 @@ $(document).ready(function () {
                         break;
                 }
 
-                $("#projectile" + towerArray[index].id + "-" + count).show();
-                $("#projectile" + towerArray[index].id + "-" + count).css('top', $("#" + towerI + "-" + towerJ).position().top + 20);
-                $("#projectile" + towerArray[index].id + "-" + count).css('left', $("#" + towerI + "-" + towerJ).offset().left + 20);
-
-                var topOffset2 = $("#map-div").position().top;
-                var leftOffset2 = $("#map-div").position().left + $("#0-2").position().left;
-
-                var topMove = 20 + topOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().top; 
-                var leftMove = leftOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().left;
+                for (var i = 1; i <= count; i++){
+                    $("#projectile" + towerArray[index].id + "-" + i).show();
+                    $("#projectile" + towerArray[index].id + "-" + i).css('top', $("#" + towerI + "-" + towerJ).position().top + 20);
+                    $("#projectile" + towerArray[index].id + "-" + i).css('left', $("#" + towerI + "-" + towerJ).offset().left + 20);
+    
+                    var topOffset2 = $("#map-div").position().top;
+                    var leftOffset2 = $("#map-div").offset().left;
+    
+                    var topMove = 20 + topOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().top; 
+                    var leftMove = leftOffset2 + $("#" + validMonsters[randomMonster].currLoc.i + "-" + validMonsters[randomMonster].currLoc.j).position().left;
+                    
+                    if (towerJ < validMonsters[randomMonster].currLoc.j) {
+                        leftMove += 20;
+                    }
+    
+                    $("#projectile" + towerArray[index].id + "-" + i).animate({
+                        top: topMove,
+                        left: leftMove
+                    }, 400, "linear", function () {
+                        $(this).hide();
+                    });
+                }
                 
-                if (towerJ < validMonsters[randomMonster].currLoc.j) {
-                    leftMove -= 20;
-                }
-                else {
-                    leftMove += 20;
-                }
-
-                $("#projectile" + towerArray[index].id + "-" + count).animate({
-                    top: topMove,
-                    left: leftMove
-                }, 400, "linear", function () {
-                    $(this).hide();
-                });
             }
         });
         $("#score-value").html(gameScore);
