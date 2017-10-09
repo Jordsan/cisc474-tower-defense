@@ -47,6 +47,29 @@
 
 */
 
+/***** Class Definitions ******/
+
+function Point(i, j) {
+    this.i = i;
+    this.j = j;
+};
+
+function Monster(id, health, currLoc, oldLoc, speed) {
+    this.id = id;
+    this.health = health;
+    this.currLoc = currLoc;
+    this.oldLoc = oldLoc;
+    this.speed = speed;
+    this.isAlive = true;
+};
+
+function Tower(i, j, id, damage) {
+    this.i = i;
+    this.j = j;
+    this.id = id;
+    this.damage = damage;
+};
+
 function Tile(val, monster, direction) {
     this.val = val;
     this.monster = monster;
@@ -54,7 +77,90 @@ function Tile(val, monster, direction) {
 };
 
 
-// make this right and left not horizontal
+// UNFINISHED: AUTO MAP CREATION
+
+function createRightTile() {
+    return new Tile(0, null, "right");
+}
+
+function createLeftTile() {
+    return new Tile(0, null, "left");
+}
+
+function createVerticalTile() {
+    return new Tile(0, null, "vertical");
+}
+
+function createTopLeftTile() {
+    return new Tile(0, null, "top_left");
+}
+
+function createTopRightTile() {
+    return new Tile(0, null, "top_right");
+}
+
+function createBottomLeftTile() {
+    return new Tile(0, null, "bottom_left");
+}
+
+function createBottomRightTile() {
+    return new Tile(0, null, "bottom_right");
+}
+
+function createBaseTile() {
+    return new Tile("F", null, "base");
+}
+
+function randomNumberFromRange(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function generateRandomMap() {
+    var map = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ];
+    // Pick a starting point on top row
+    var currentPoint = new Point(0, randomNumberFromRange(0, 12));
+    // If start point is far left
+    if (currentPoint.j == 0) {
+        var choice = randomNumberFromRange(1, 2);
+        if (choice == 1) { // go right
+            map[currentPoint.i][currentPoint.j] = createRightTile();
+        }
+        if (choice == 2) { // go down
+            map[currentPoint.i][currentPoint.j] = createVerticalTile();
+        }
+    }
+    // if start point is far right
+    if (currentPoint.j == 11) {
+        var choice = randomNumberFromRange(1, 2);
+        if (choice == 1) { // go left
+            map[currentPoint.i][currentPoint.j] = createLeftTile();
+        }
+        if (choice == 2) { // go down
+            map[currentPoint.i][currentPoint.j] = createVerticalTile();
+        }
+    }
+    var mapFinished = false;
+    var PreviousPoint;
+    while (!mapFinished) {
+        // 
+        PreviousPoint 
+    }
+   
+};
 
 // Level 1 Details:
 function getMapStartPoint() {
@@ -134,26 +240,7 @@ var topOffset = 0;
 var leftOffset = 0;
 var monsterSpeed = 1;
 
-function Point(i, j) {
-    this.i = i;
-    this.j = j;
-};
 
-function Monster(id, health, currLoc, oldLoc, speed) {
-    this.id = id;
-    this.health = health;
-    this.currLoc = currLoc;
-    this.oldLoc = oldLoc;
-    this.speed = speed;
-    this.isAlive = true;
-};
-
-function Tower(i, j, id, damage) {
-    this.i = i;
-    this.j = j;
-    this.id = id;
-    this.damage = damage;
-};
 
 function drawMap(mapArray) {
     $("#next-level-button").hide();
@@ -321,7 +408,8 @@ function moveMonsters(mapArray) {
                 mapArray[currI][currJ].monster = monsterArray[i];
             }
             else {
-                $("#monster-" + (i + 1)).hide().remove();
+                $("#monster-" + (i + 1)).remove();
+
             }
             mapArray[oldI][oldJ].val = 0;
             mapArray[oldI][oldJ].monster = null;
@@ -338,8 +426,6 @@ $(document).ready(function () {
         monsterArray = new Array();
         monsterCount = 0;
         monstersPerLevel = monstersPerLevel;
-        mapArray = map2Array;
-        drawMap(mapArray);
         killCount = 0;   
         monsterSpeed = 3;
         gameMoney += (gameLevel + 1) * 3;     
@@ -384,6 +470,10 @@ $(document).ready(function () {
 
             $("#monster-div").append(
                 '<div class="monsterDiv monster-level-' + (gameLevel % 5) + '_S" id="monster-' + (monsterCount + 1) + '"></div>'
+            );
+            var monsterId = "monster-" + (monsterCount + 1);
+            $("#" + monsterId).prepend(
+                '<progress id="' + monsterId + 'health" value="' + ((gameLevel + 1) * 4) + '"' + 'max="' + ((gameLevel + 1) * 4) + '"' + 'style="width:40px" class="testClass"></progress>'
             );
 
             topOffset = $("#map-div").position().top;
@@ -468,6 +558,10 @@ $(document).ready(function () {
             if (validMonsters.length > 0) {
                 var randomMonster = Math.floor(Math.random() * validMonsters.length);
                 validMonsters[randomMonster].health -= towerArray[index].damage;
+                var healthId = validMonsters[randomMonster].id;
+                var idString = "monster-" + healthId + "health";
+                debugger;
+                $("#" + idString).attr("value", validMonsters[randomMonster].health);
             }
 
         });
@@ -484,7 +578,6 @@ $(document).ready(function () {
         SelectedTowerId = (this).id;
     });
 
-
     $(".buildable").click(function () {
         if (!chosenTower) {
             return;
@@ -498,6 +591,8 @@ $(document).ready(function () {
                     $(this).removeClass("buildable");
                     $(this).addClass("tower1");
                     $(this).addClass("tile-tower");
+                    $(this).attr("title", "Damage: 1");
+
 
                     gameMoney -= 10;
                 }
